@@ -1,0 +1,21 @@
+@import "sidebar.scss";
+* {
+  font-size: 13px;
+}
+
+.el-table .cell {
+  padding: 0 12px;
+}
+.el-dialog__body{
+  padding:var(--el-dialog-padding-primary) !important
+}
+.el-button {
+  height: 30px ;
+  padding: 8px 12px !important;
+}
+.el-button [class*=el-icon]+span {
+  margin-left: 3px !important;
+}
+.w-e-text-container{
+  height: 400px !important;
+}
