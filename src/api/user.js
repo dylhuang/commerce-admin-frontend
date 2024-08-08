@@ -1,11 +1,11 @@
-import { post } from "@/utils/http";
+import { post,get } from "@/utils/http";
 
 function baseUrlApi(str) {
   return `/api${str}`;
 }
 /** 获取登录验证码 */
 export const getVerificationCode = () => {
-  return post(baseUrlApi("/common/verifyCode/image")) ;
+  return get(baseUrlApi("/sys/captcha/img")) ;
 };
 
 /** 获取publicKey */

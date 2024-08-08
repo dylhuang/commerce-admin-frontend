@@ -44,12 +44,12 @@ export default defineConfig({
     server: {
         // 是否开启 https
         https: false,
-        port: 8088,
+        port: 8081,
         host: '0.0.0.0',
         hmr: true,
         proxy: {
             '^/api/.*': {
-                target: 'https://admin-gateway-dev.ccimall.com',
+                target: 'http://192.168.9.107:8081',
                 changeOrigin: true,
                 rewrite: path => path.replace(/^\/api/, ''),
             },

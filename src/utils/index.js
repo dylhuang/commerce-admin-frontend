@@ -18,28 +18,7 @@ export function searchRewardType(value) {
     });
 }
 
-export function searchDelayLevels(value) {
-    console.log(value, 9999);
-    if (null === value) {
-        return [];
-    }
-    if (value === 0) {
-        return delayLevels.filter(item => {
-            return 1 <= item.value && item.value <= 4;
-        });
-    }
-    if (value === 1) {
-        return delayLevels.filter(item => {
-            return 4 < item.value && item.value <= 16;
-        });
-    }
-    if (value === 2) {
-        return delayLevels.filter(item => {
-            return 16 < item.value && item.value <= 33;
-        });
-    }
-    return [];
-}
+
 
 export function bankNameSearch(value) {
     if (!value) {
