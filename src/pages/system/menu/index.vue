@@ -93,7 +93,7 @@ const tableInfo = reactive({
 });
 const getTableList = async () => {
   const result = await getResourceList(pageParam);
-  if (result.code === 100) {
+  if (result.code === 200) {
     tableInfo.tableData = result.data.records || [];
     tableInfo.total = result.data.totalCount - 0;
   }
@@ -146,7 +146,7 @@ const handleDel = async ids => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
   const result = await delMenu({ ids });
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }

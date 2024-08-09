@@ -7,14 +7,15 @@ import apiLoadingList from '@/config/loadingApi.js';
 export function baseUri(str) {
     return `/api${str}`;
 }
-
+let token = localStorage.getItem('token');
 const request = axios.create({
     // baseURL: '',
     timeout: 80000,
     withCredentials: false, // 异步请求携带cookie
+    
     headers: {
-        appKey: 'ADMIN-PC',
         'Content-Type': 'application/json',
+        'Authorization' : 'Bearer '+ token,
     },
 });
 
@@ -23,15 +24,7 @@ let loadingInstance = null;
 // request拦截器
 request.interceptors.request.use(
     config => {
-        const loginToken = localStorage.getItem('loginToken');
-        config.headers['loginToken'] = loginToken;
-        const sessionGenerateId = localStorage.getItem('sessionGenerateId');
-        config.headers['sessionGenerateId'] = sessionGenerateId;
-        const timestamp = new Date().getTime();
-        config.headers['timestamp'] = timestamp;
-        const randomId = Math.random().toString(36).substring(2, 10);
-        config.headers['randomId'] = randomId;
-        config.headers['appSign'] = getAppSign(timestamp, randomId);
+       
         if (apiLoadingList.includes(config.url)) {
             loadingInstance = ElLoading.service({
                 lock: true,
@@ -57,12 +50,12 @@ request.interceptors.response.use(
         if (arrown) {
             return result;
         }
-        if (result && result.code !== 100) {
+        if (result && result.code !== 200) {
             if (result.code === 102) {
                 const logining = localStorage.getItem('logining');
                 if (logining) return;
                 localStorage.setItem('logining', true);
-                localStorage.removeItem('loginToken');
+                localStorage.removeItem('token');
                 localStorage.removeItem('userRouterList');
                 localStorage.removeItem('routerPathList');
                 ElMessage({
@@ -72,7 +65,7 @@ request.interceptors.response.use(
                 router.push('/login');
             } else {
                 ElMessage({
-                    message: result.msg,
+                    message: result.message,
                     type: 'error',
                 });
             }

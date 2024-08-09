@@ -55,11 +55,11 @@ const getFormInfo = async (id) => {
 };
 const emit = defineEmits(["closeDialog", "refreshData"]);
 const handleSubmit = async () => {
-  const res = await getPublicKey();
+  // const res = await getPublicKey();
   const encryptor = new JSEncrypt();
-  const { publicKey, sessionGenerateId } = res;
-  localStorage.setItem("sessionGenerateId", sessionGenerateId);
-  encryptor.setPublicKey(publicKey);
+  // const { publicKey, sessionGenerateId } = res;
+  // localStorage.setItem("sessionGenerateId", sessionGenerateId);
+  // encryptor.setPublicKey(publicKey);
   const oldPassword = encryptor.encrypt(form.info.oldPassword);
   const password = encryptor.encrypt(form.info.password);
   const confirmPassword = encryptor.encrypt(form.info.confirmPassword);
@@ -67,7 +67,7 @@ const handleSubmit = async () => {
   form.info.password = password;
   form.info.confirmPassword = confirmPassword;
   let result = await rePassword(form.info);
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage({
       message: "保存成功",
       type: "success",

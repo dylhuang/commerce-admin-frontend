@@ -76,7 +76,7 @@ const props = defineProps({
 });
 const getFormInfo = async (id) => {
   const result = await getMenuInfo({id});
-  if (result.code === 100) {
+  if (result.code === 200) {
     form.info = result.data;
   }
 };
@@ -88,7 +88,7 @@ const handleSub = async () => {
   } else {
     result = await addMenu(form.info);
   }
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage({
       message: "保存成功",
       type: "success",

@@ -7,7 +7,7 @@ export default defineStore('user', {
     state: () => {
         return {
             userInfo: {},
-            loginToken: '',
+            token: '',
             menuList: [],
             unionSetting: {},
         };
@@ -17,18 +17,11 @@ export default defineStore('user', {
     actions: {
         async userLoginAction(loginParam) {
             localStorage.clear();
-            const res = await getPublicKey();
-            const encryptor = new JSEncrypt();
-            const { publicKey, sessionGenerateId } = res;
-            localStorage.setItem('sessionGenerateId', sessionGenerateId);
-            encryptor.setPublicKey(publicKey);
-            loginParam.password = encryptor.encrypt(loginParam.password);
             const res2 = await userLogin(loginParam);
-            if (res2.code === 100) {
+            if (res2.code === 200) {
                 this.setUserInfo(res2.data);
-                localStorage.setItem('loginToken', res2.data.loginToken);
-                this.setToken(res2.data.loginToken);
-                // await this.getUnionSetting();
+                localStorage.setItem('token', res2.data.token);
+                this.setToken(res2.data.token);
                 const res3 = await this.getUserMenu();
                 return new Promise((resolve, reject) => {
                     resolve(res3);
@@ -45,13 +38,13 @@ export default defineStore('user', {
             this.userInfo = info;
         },
         setToken(val) {
-            this.loginToken = val;
+            this.token = val;
         },
         getUserMenu() {
             return new Promise((resolve, reject) => {
                 getUserNavList()
                     .then(res => {
-                        if (res.code === 100) {
+                        if (res.code === 200) {
                             this.setUserMenuList(res.data);
                             makeDynamicRoute(res.data);
                             // 获取公共资源
@@ -71,10 +64,10 @@ export default defineStore('user', {
             this.unionSetting = data;
         },
         // async getUnionSetting() {
-        //     const token = localStorage.getItem('loginToken');
+        //     const token = localStorage.getItem('token');
         //     if (token) {
         //         const res = await getUnionSetting();
-        //         if (res.code === 100 && res.data) {
+        //         if (res.code === 200 && res.data) {
         //             this.setUnionSetting(res.data);
         //         }
         //     }

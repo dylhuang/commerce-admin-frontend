@@ -55,7 +55,7 @@ export default defineStore('common', {
                             fieldName: 'file',
                             server: UPLOAD.URL,
                             headers: {
-                                loginToken: localStorage.getItem('loginToken'),
+                                token: localStorage.getItem('token'),
                             },
                             meta: {
                                 fileType: UPLOAD.FILETYPE.IMAGE,
@@ -65,7 +65,7 @@ export default defineStore('common', {
                             maxNumberOfFiles: 6,
                             allowedFileTypes: [],
                             customInsert(res, insertFn) {
-                                if (res.code === 100) {
+                                if (res.code === 200) {
                                     insertFn(res.data.filePath, '', '');
                                 } else {
                                     ElMessage.warning('上传失败');
@@ -121,7 +121,7 @@ export default defineStore('common', {
             return new Promise((resolve, reject) => {
                 getSubSysList()
                     .then(res => {
-                        if (res.code === 100) {
+                        if (res.code === 200) {
                             this.setSubSystemList(res.data || []);
                             resolve(res);
                         }
@@ -138,7 +138,7 @@ export default defineStore('common', {
             return new Promise((resolve, reject) => {
                 getDepartmentTree()
                     .then(res => {
-                        if (res.code === 100) {
+                        if (res.code === 200) {
                             this.setDepartmentTree(res.data || []);
                             resolve(res);
                         }
@@ -153,7 +153,7 @@ export default defineStore('common', {
         },
         async getTradeTpesAction() {
             const result = await cacheCodeList({ value: 'TradeType' });
-            if (result.code === 100) {
+            if (result.code === 200) {
                 this.setTradeTypes(result.data);
             }
         },

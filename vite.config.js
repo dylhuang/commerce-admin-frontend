@@ -46,12 +46,12 @@ export default defineConfig({
         https: false,
         port: 8081,
         host: '0.0.0.0',
-        hmr: true,
+        hmr: false,
         proxy: {
-            '^/api/.*': {
+            '/api/': {
                 target: 'http://192.168.9.107:8081',
-                changeOrigin: true,
-                rewrite: path => path.replace(/^\/api/, ''),
+                // changeOrigin: true,
+                // rewrite: path => path.replace(/^\/api/, ''),
             },
         },
     },

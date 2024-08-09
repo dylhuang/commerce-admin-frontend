@@ -49,7 +49,7 @@ const formInfo = reactive({
 });
 const getFormInfo = async () => {
   const result = await getItem({id: props.id});
-  if (result.code === 100) {
+  if (result.code === 200) {
     formInfo.name = result.data.name;
     formInfo.parentId = result.data.parentId + "";
     formInfo.id = props.id;
@@ -90,7 +90,7 @@ const handleSub = async (formEl) => {
   } else {
     res = await addItem(formInfo);
   }
-  if (res.code === 100) {
+  if (res.code === 200) {
     ElMessage.success("操作成功");
     emit("refreshData");
   }

@@ -79,7 +79,7 @@ const pageParam = reactive({
 });
 const getPageList = async () => {
   const result = await getList(pageParam);
-  if (result.code === 100 && result.data) {
+  if (result.code === 200 && result.data) {
     pageInfo.table = result.data.records;
     pageInfo.total = result.data.totalCount - 0;
   }
@@ -138,7 +138,7 @@ const handleDel = async (data) => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
   const result = await delItem({ ids: data });
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }
@@ -153,7 +153,7 @@ const handleBatchDel = async () => {
 }
 const handleFlushCache = async () => {
   const result = await flushCache();
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }

@@ -49,7 +49,7 @@ const handleSub = () => {
 }
 const onGetSubSysList = async () => {
     const result = await getSubSysList();
-    if (result.code === 100 && result.data) {
+    if (result.code === 200 && result.data) {
         useCommonStoreHook().setSubSystemList(result.data);
         queryForm.subSysList = result.data;
         queryForm.subSystemId = result.data[0].id;

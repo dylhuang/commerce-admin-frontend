@@ -51,8 +51,6 @@
                 height: 45px;
                 border-radius: 4px;
                 margin-left: 5px;
-                border: 2px solid #5eeef8;
-                padding: 5px;
               "
               :src="imgCodeInfo.baseImage"
               @click="getLoginCode"
@@ -76,7 +74,7 @@
 <script setup name="login">
 import { ref, reactive, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import { getVerificationCode } from "@/api/user.js";
+import { getVerificationCode,userLogin,getUserInfo } from "@/api/user.js";
 import { useUserStoreHook, useCommonStoreHook } from "@/store/modules";
 import Layout from "@/layout/index.vue";
 import Index from "@/pages/index/index.vue";
@@ -90,9 +88,9 @@ const imgCodeInfo = reactive({
 // getVerificationCode
 const getLoginCode = async () => {
   const res = await getVerificationCode();
-  if (res.code === 100) {
-    imgCodeInfo.baseImage = `data:image/jpeg;base64,${res.data.baseImage}`;
-    imgCodeInfo.generateId = res.data.generateId;
+  if (res.code === 200) {
+    imgCodeInfo.baseImage = `data:image/jpeg;base64,${res.data.img}`;
+    imgCodeInfo.generateId = res.data.uuid;
   }
 };
 const loginLoding = ref(false);
@@ -132,14 +130,18 @@ const handleLogin = () => {
 };
 const onLogin = async () => {
   const loginParam = {
-    generateId: imgCodeInfo.generateId,
+    uuid: imgCodeInfo.generateId,
     password: form.password,
     code: form.code,
     username: form.username,
   };
-  const res = await useUserStoreHook().userLoginAction(loginParam);
+  const res = await userLogin(loginParam)
+  // const res = await useUserStoreHook().userLoginAction(loginParam);
   loginLoding.value = false;
-  if (res.code === 100) {
+  if (res.code === 200) {
+    console.log(res.data.token);
+    localStorage.setItem('token', res.data.token);
+    const result =  await getUserInfo()
     ElMessage.success("登录成功");
     router.push("/");
   } else {

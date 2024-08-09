@@ -49,7 +49,7 @@ const formInfo = reactive({
 });
 const getFormInfo = async () => {
   const result = await getItem({ id: props.id });
-  if (result.code === 100) {
+  if (result.code === 200) {
     formInfo.id = props.id;
     formInfo.name = result.data.name;
     formInfo.description = result.data.description;
@@ -77,7 +77,7 @@ const treeProps = {
 }
 const getRoleTree = async () => {
   const result = await getTree({ id: props.id });
-  if (result.code === 100) {
+  if (result.code === 200) {
     treeList.value = result.data;
     if (props.id) {
       findCheckNodes(result.data);
@@ -123,7 +123,7 @@ const handleSub = async (formEl) => {
   } else {
     res = await addItem(formInfo);
   }
-  if (res.code === 100) {
+  if (res.code === 200) {
     ElMessage.success("保存成功");
     emit("refreshData");
   }

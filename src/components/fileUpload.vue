@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-upload class="file-uploader" :action="UPLOAD.URL" :limit="1"
-      :data="{ fileType: UPLOAD.FILETYPE.IMAGE, type: UPLOAD.TYPE.SELLER }" :headers="{ loginToken }"
+      :data="{ fileType: UPLOAD.FILETYPE.IMAGE, type: UPLOAD.TYPE.SELLER }" :headers="{ token }"
       :on-success="(res, file) => { handleAvatarSuccess(res, file) }">
       <template #trigger>
         <el-button type="primary">上传文件</el-button>
@@ -14,12 +14,12 @@
 import { ref, reactive, toRefs, onMounted } from 'vue';
 import { UPLOAD } from "@/api/common";
 
-const loginToken = localStorage.getItem("loginToken");
+const token = localStorage.getItem("token");
 
 const emits = defineEmits(["uploadSuccess"]);
 
 const handleAvatarSuccess = (response, uploadFile) => {
-  if (response.code === 100) {
+  if (response.code === 200) {
     emits("uploadSuccess", response.data.filePath);
   }
 }

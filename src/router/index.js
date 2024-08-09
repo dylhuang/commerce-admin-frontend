@@ -30,6 +30,7 @@ const routes = [
         name: 'login',
         component: Login,
     },
+   
     {
         path: '/404',
         name: '404',

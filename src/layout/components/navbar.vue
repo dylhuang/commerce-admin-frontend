@@ -91,7 +91,7 @@ const handleSubmit = async () => {
     ElMessage.warning("两次密码不一致");
     return
   }
-  const res = await getPublicKey();
+  // const res = await getPublicKey();
   const encryptor = new JSEncrypt();
   const { publicKey, sessionGenerateId } = res;
   localStorage.setItem("sessionGenerateId", sessionGenerateId);
@@ -104,7 +104,7 @@ const handleSubmit = async () => {
   subParam.password = encryptor.encrypt(pwdForm.password);
   subParam.confirmPassword = subParam.password;
   const res2 = await rePassword(subParam);
-  if (res2.code === 100) {
+  if (res2.code === 200) {
     ElMessage.success("修改成功，请重新登录");
     setTimeout(() => {
       handleLoginOut();

@@ -50,13 +50,13 @@ const props = defineProps({
 });
 const getCacheCodeList = async () => {
   const result = await cacheCodeList({"value": "SubSystemRoleType"});
-  if (result.code === 100) {
+  if (result.code === 200) {
     cacheValueList.value = result.data;
   }
 }
 const getFormInfo = async (id) => {
   const result = await getItem({id});
-  if (result.code === 100) {
+  if (result.code === 200) {
     form.info = result.data;
     form.info.roleType = result.data.roleType + 0;
   }
@@ -69,7 +69,7 @@ const handleSub = async () => {
   } else {
     result = await addItem(form.info);
   }
-  if (result.code === 100) {
+  if (result.code === 200) {
     ElMessage({
       message: "保存成功",
       type: "success",

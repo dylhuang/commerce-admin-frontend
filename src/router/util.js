@@ -6,9 +6,11 @@ let routerPathList = [];
 const makeRouters = arry => {
     const anysRouters = [];
     arry.forEach(data => {
+        console.log(data);
+        
         const routeRecordRaw = {
             path: data.routerUrl,
-            name: data.routerUrl.substr(1).replace(/\//g, '-'),
+            // name: data.routerUrl.substr(1).replace(/\//g, '-'),
             meta: {
                 title: data.name,
                 btns: data.roles,
@@ -18,10 +20,10 @@ const makeRouters = arry => {
             routeRecordRaw.componentUrl = `/src/pages${data.routerUrl}/index.vue`;
         } else {
             routeRecordRaw.children = [];
-            if (data.subMenu.length) {
+            // if (data.subMenu.length) {
                 const children = makeRouters(data.subMenu);
                 routeRecordRaw.children = children;
-            }
+            // }
         }
         anysRouters.push(routeRecordRaw);
     });
@@ -50,14 +52,30 @@ const addAsyncRoutes = (routers, parent = 'layout') => {
 
 // 添加额外路由
 const addAdditionalRouter = () => {
-
+ // 平台商品
+    //  if (routerPathList.includes('/goods/goods')) {
+    //     const routeRecordRaw = {
+    //         path: '/goods/edit',
+    //         name: 'product-edit',
+    //         component: modules['/src/pages/goods/goods/goodsEdit.vue'],
+    //         meta: {
+    //             title: '货品编辑',
+    //         },
+    //     };
+    //     router.addRoute('goods', routeRecordRaw);
+    //     routerPathList.push(routeRecordRaw.path);
+    // }
 
 };
 
 // 登录 生成动态路由
 const makeDynamicRoute = useroute => {
+    console.log(useroute);
+    
     routerPathList = [];
     const anysRouters = makeRouters(useroute);
+    console.log(anysRouters);
+    
     addAsyncRoutes(anysRouters);
     addAdditionalRouter();
     useCommonStoreHook().setUserRouterList(anysRouters);
@@ -73,8 +91,7 @@ const makeDynamicRouteWithLocal = () => {
         routerPathList = routerPathListStatic;
         addStaticRoutes(userRouterList);
         addAdditionalRouter();
-        console.log('路由创建成功');
-        resolve({ code: 100, msg: '路由创建成功' });
+        resolve({ code: 200, msg: '路由创建成功' });
     });
 };
 const addStaticRoutes = (routers, parent = 'layout') => {
@@ -106,9 +123,8 @@ function hasAuthBtn(value) {
 }
 
 const routerInit = async () => {
-    console.log('routerInit');
     // 路由加载
-    const token = localStorage.getItem('loginToken');
+    const token = localStorage.getItem('token');
     const routerPathList = JSON.parse(localStorage.getItem('routerPathList')) || [];
     if (token && routerPathList.length) {
         return await makeDynamicRouteWithLocal();

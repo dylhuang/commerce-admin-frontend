@@ -63,7 +63,7 @@ import { useRouter } from 'vue-router';
 import { useCommonStoreHook } from "@/store/modules";
 const router = useRouter();
 const handleLoginout = () => {
-    localStorage.removeItem("loginToken");
+    localStorage.removeItem("token");
     useCommonStoreHook().resetCommonStore();
     router.push("/login");
 };
