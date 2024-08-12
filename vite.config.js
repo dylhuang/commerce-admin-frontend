@@ -46,7 +46,8 @@ export default defineConfig({
         https: false,
         port: 8081,
         host: '0.0.0.0',
-        hmr: false,
+        hmr: true,
+        hot:true,
         proxy: {
             '/api/': {
                 target: 'http://192.168.9.107:8081',

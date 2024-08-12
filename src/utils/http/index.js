@@ -87,8 +87,7 @@ request.interceptors.response.use(
 // get请求
 export function get(url, data = {}) {
     return new Promise((resolve, reject) => {
-        request
-            .get(url, {
+        request.get(url, {
                 params: data,
             })
             .then(response => {
@@ -111,6 +110,33 @@ export function post(url, data = {}) {
                 reject(err);
             }
         );
+    });
+}
+// put请求
+export function put(url, data = {}) {
+    return new Promise((resolve, reject) => {
+        request.put(url, data).then(
+            response => {
+                resolve(response);
+            },
+            err => {
+                reject(err);
+            }
+        );
+    });
+}
+// detele请求
+
+export function undel(url, data = {}) {
+   
+    return new Promise((resolve, reject) => {
+        request.delete(url)
+            .then(response => {
+                resolve(response);
+            })
+            .catch(err => {
+                reject(err);
+            });
     });
 }
 // fileUpload

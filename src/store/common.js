@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { UPLOAD } from '@/api/common';
-import { getSubSysList, getDepartmentTree, cacheCodeList } from '@/api/common';
+import {  getDepartmentTree, cacheCodeList } from '@/api/common';
 import { nextTick } from 'vue';
 export default defineStore('common', {
     state: () => {
@@ -8,14 +8,7 @@ export default defineStore('common', {
             isRouterAlive: true,
             sliderCollapse: false,
             tags: [{ name: '首页', routerUrl: '/index', meta: { affix: true } }],
-            tradeTypes: [
-                { codeName: '一般贸易', codeValue: 'I00' },
-                { codeName: '跨境直邮', codeValue: 'I10' },
-                { codeName: '跨境保税', codeValue: 'I20' },
-                { codeName: '海外直邮', codeValue: 'I30' },
-                { codeName: '香港直邮', codeValue: 'I40' },
-                { codeName: '免税商品', codeValue: 'I50' },
-            ],
+           
             cachePages: [],
             userRouterList: [],
             subSystemList: [],

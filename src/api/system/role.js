@@ -5,7 +5,7 @@ function baseUrlApi(str) {
 }
 
 export const getList = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/findPage"), data);
+  return post(baseUrlApi("/sys/role/pageList"), data);
 };
 
 export const addItem = (data) => {

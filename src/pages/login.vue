@@ -135,13 +135,14 @@ const onLogin = async () => {
     code: form.code,
     username: form.username,
   };
-  const res = await userLogin(loginParam)
-  // const res = await useUserStoreHook().userLoginAction(loginParam);
+  // const res = await userLogin(loginParam)
+  const res = await useUserStoreHook().userLoginAction(loginParam);
   loginLoding.value = false;
   if (res.code === 200) {
-    console.log(res.data.token);
-    localStorage.setItem('token', res.data.token);
     const result =  await getUserInfo()
+    console.log(result.data.permissionCodes);
+    
+    localStorage.setItem('permission', JSON.stringify(result.data.permissionCodes));
     ElMessage.success("登录成功");
     router.push("/");
   } else {

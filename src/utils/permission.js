@@ -1,7 +1,5 @@
-import { useRoute } from 'vue-router';
-
+const btns = localStorage.getItem('permission');
 export function hasAuthBtn(value) {
-    const route = useRoute();
-    const metaAuths = route.meta.btns || [];
+    const metaAuths = btns || [];
     return metaAuths.includes(value);
 }

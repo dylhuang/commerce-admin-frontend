@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { getPublicKey, userLogin, getUserNavList } from '@/api/user.js';
+import {  userLogin, getUserNavList } from '@/api/user.js';
 import { makeDynamicRoute } from '@/router/util';
 import { JSEncrypt } from 'jsencrypt';
 import { useCommonStoreHook } from './modules';
@@ -29,8 +29,6 @@ export default defineStore('user', {
             } else {
                 return new Promise((resolve, reject) => {
                     resolve(res2);
-                    //resolve({ code: 500, msg: '登录异常' });
-                    //reject("登录异常")
                 });
             }
         },
@@ -48,7 +46,7 @@ export default defineStore('user', {
                             this.setUserMenuList(res.data);
                             makeDynamicRoute(res.data);
                             // 获取公共资源
-                            useCommonStoreHook().getCommonResources();
+                            // useCommonStoreHook().getCommonResources();
                             resolve(res);
                         }
                     })

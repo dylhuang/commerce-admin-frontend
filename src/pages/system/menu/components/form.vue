@@ -1,21 +1,27 @@
 <template>
   <el-form :model="form" label-width="120px">
-    <el-form-item label="所属子系统">
-      <el-select v-model="form.info.partitionId" :disabled="form.info.parentId != 0">
-        <el-option :label="item.partName" :value="item.id" v-for="item in subSysList" :key="item.id"/>
-      </el-select>
-    </el-form-item>
     <el-form-item label="上级菜单" v-show="parentName">
       <el-input disabled :value="parentName"/>
     </el-form-item>
     <el-form-item label="菜单名称">
-      <el-input v-model="form.info.name"/>
+      <el-input v-model="form.info.menuName"/>
     </el-form-item>
-    <el-form-item label="接口权限">
-      <el-input v-model="form.info.path"/>
+    <el-form-item label="权限标识">
+      <el-input v-model="form.info.code"/>
+    </el-form-item>
+    <el-form-item label="路由名称">
+      <el-input v-model="form.info.routeName"/>
     </el-form-item>
     <el-form-item label="路由地址">
-      <el-input v-model="form.info.routerUrl"/>
+      <el-input v-model="form.info.path"/>
+    </el-form-item>
+    <el-form-item label="菜单类型">
+      <el-radio-group v-model="form.info.menuType">
+        <el-radio label="M">目录</el-radio>
+        <el-radio label="C">菜单</el-radio>
+        <el-radio label="F">按钮</el-radio>
+
+      </el-radio-group>
     </el-form-item>
     <el-form-item label="Icon">
 <!--      <el-input v-model="form.info.icon"/>-->
@@ -25,7 +31,7 @@
       <el-checkbox v-model="form.info.enable"/>
     </el-form-item>
     <el-form-item label="排序">
-      <el-input v-model="form.info.orders"/>
+      <el-input v-model="form.info.orderNum"/>
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="handleSub">保存</el-button>
@@ -49,13 +55,15 @@ const form = reactive({
     description: "",
     icon: "",
     id: null,
-    name: "",
-    orders: 0,
+    menuName: "",
+    orderNum: 0,
+    routeName:'',
     parentId: "",
     partitionId: "",
+    code: "",
     path: "",
-    routerUrl: "",
-    enable: true
+    enable: true,
+    menuType:'',
   },
 });
 const props = defineProps({
@@ -105,12 +113,14 @@ const initInfo = () => {
     description: "",
     icon: "",
     id: null,
-    name: "",
-    orders: 0,
+    menuName: "",
+    orderNum: 0,
+    routeName:'',
     parentId: props.parentId,
     partitionId: props.partitionId,
+    code: "",
     path: "",
-    routerUrl: "",
+    menuType:''
   }
   if (props.id) {
     getFormInfo(props.id);

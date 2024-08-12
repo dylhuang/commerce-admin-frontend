@@ -12,12 +12,12 @@
       <el-table :data="pageInfo.table" border style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55" />
         <el-table-column type="index" width="60" label="序号" align="center" />
-        <el-table-column prop="name" label="名称" align="center" />
-        <el-table-column prop="description" label="备注" />
-        <el-table-column prop="createDate" label="创建时间" />
+        <el-table-column prop="roleName" label="名称" align="center" />
+        <el-table-column prop="roleCode" label="编码" />
+        <el-table-column prop="createTime" label="创建时间" />
         <el-table-column label="操作" width="80" align="center">
           <template #default="scope">
-            <el-tooltip v-if="hasAuthBtn('/admin/v6_0_0/role/update')" class="box-item" effect="dark" content="编辑"
+            <el-tooltip class="box-item" effect="dark" content="编辑"
               placement="top-start">
               <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.name)"
                 :icon="Edit" />
@@ -52,13 +52,13 @@ const pageInfo = reactive({
 })
 const pageParam = reactive({
   pageSize: 20,
-  pageNumber: 1,
+  pageNum: 1,
   keyword: ""
 });
 const getRoleList = async () => {
   const result = await getList(pageParam);
   if (result.code === 200 && result.data) {
-    pageInfo.table = result.data.records;
+    pageInfo.table = result.data.list;
     pageInfo.total = result.data.totalCount - 0;
   }
 };

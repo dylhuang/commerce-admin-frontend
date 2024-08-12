@@ -2,10 +2,11 @@
   <SearchForm :currentTags="currentTags" @onSearch="handleSubChange" />
   <div class="bg-white p-2 rounded-sm">
     <div class="p-2">
-      <el-button  plain v-if="hasAuthBtn('/admin/resourceUrl/save')" type="primary" :icon="CirclePlus" class="!ml-0"
+      <el-button  plain v-if="hasAuthBtn('system:user:add')" type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAddMenu">添加
       </el-button>
-      <el-button  plain v-if="hasAuthBtn('/admin/resourceUrl/delete')" type="danger" :icon="Delete" @click="handleBatchDel">
+     
+      <el-button  plain type="danger"  v-if="hasAuthBtn('system:user:delete')" :icon="Delete" @click="handleBatchDel">
         删除
       </el-button>
       <el-button :icon="Top" @click="handleBackTop">顶级</el-button>
@@ -18,9 +19,9 @@
         <el-table-column type="index" width="60" label="序号" align="center" />
         <el-table-column label="名称">
           <template #default="scope">
-            <el-button type="primary" size="small" link :disabled="!(scope.row.grade < 3)"
-              @click="handleNext(scope.row.id, scope.row.name)">
-              {{ scope.row.name }}
+            <el-button type="primary" size="small" link 
+              @click="handleNext(scope.row.id, scope.row.menuName)">
+              {{ scope.row.menuName }}
             </el-button>
           </template>
         </el-table-column>
@@ -35,13 +36,12 @@
             <el-tag type="danger" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="备注" />
-        <el-table-column prop="createDate" label="创建时间" />
-        <el-table-column label="操作" width="80" align="center">
+        <el-table-column prop="createTime" label="创建时间" />
+        <el-table-column label="操作" align="center">
           <template #default="scope">
-            <el-tooltip v-if="hasAuthBtn('/admin/resourceUrl/update')" class="box-item" effect="dark" content="编辑"
+            <el-tooltip class="box-item" effect="dark" content="编辑"
               placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.name)"
+              <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.menuName)"
                 :icon="Edit" />
             </el-tooltip>
           </template>
@@ -60,8 +60,8 @@
   </el-dialog>
 </template>
 
-<script setup name="menuManage">
-import { ref, reactive } from "vue";
+<script setup  >
+import { ref, reactive,onMounted } from "vue";
 import { delMenu, getResourceList } from "@/api/system/menu";
 import { CirclePlus, Top, Back, Delete, Edit } from "@element-plus/icons-vue";
 import MenuForm from "./components/form.vue";
@@ -77,14 +77,16 @@ const handleSelectionChange = (val) => {
   multipleSelection.value = val;
 }
 const handleSubChange = (subSystemId) => {
-  pageParam.partitionId = subSystemId;
+  pageParam.menuName = subSystemId;
   getTableList();
 };
+onMounted(()=>{
+  getTableList()
+})
 const pageParam = reactive({
-  pageSize: 20,
-  pageNumber: 1,
   parentId: "0",
-  partitionId: ""
+  partitionId: "",
+  menuName:''
 });
 // 表格数据
 const tableInfo = reactive({
@@ -94,7 +96,7 @@ const tableInfo = reactive({
 const getTableList = async () => {
   const result = await getResourceList(pageParam);
   if (result.code === 200) {
-    tableInfo.tableData = result.data.records || [];
+    tableInfo.tableData = result.data || [];
     tableInfo.total = result.data.totalCount - 0;
   }
 };
@@ -145,7 +147,11 @@ const handleEdit = (id, name) => {
 const handleDel = async ids => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
-  const result = await delMenu({ ids });
+  
+  // const ids = {...id}
+  // let ids = 6
+  
+  const result = await delMenu(ids);
   if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();

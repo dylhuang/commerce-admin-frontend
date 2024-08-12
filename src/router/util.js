@@ -6,24 +6,26 @@ let routerPathList = [];
 const makeRouters = arry => {
     const anysRouters = [];
     arry.forEach(data => {
-        console.log(data);
+     
         
         const routeRecordRaw = {
-            path: data.routerUrl,
-            // name: data.routerUrl.substr(1).replace(/\//g, '-'),
+            path: data.path,
+            name: data?.path.substr(1).replace(/\//g, '-') || '',
             meta: {
-                title: data.name,
-                btns: data.roles,
+                title: data.menuName,
+                // btns: data.roles,
             },
         };
-        if (data.parentId > 0 || data.routerUrl === '/index') {
-            routeRecordRaw.componentUrl = `/src/pages${data.routerUrl}/index.vue`;
+        console.log(data,'datalist');
+        
+        if ( data.parentId > 0 || data.path === '/index') {
+            routeRecordRaw.componentUrl = `/src/pages${data.path}/index.vue`;
         } else {
             routeRecordRaw.children = [];
-            // if (data.subMenu.length) {
-                const children = makeRouters(data.subMenu);
+            if (data.children.length) {
+                const children = makeRouters(data.children);
                 routeRecordRaw.children = children;
-            // }
+            }
         }
         anysRouters.push(routeRecordRaw);
     });
@@ -45,6 +47,8 @@ const addAsyncRoutes = (routers, parent = 'layout') => {
             });
         }
         if (item.name !== 'index') {
+            console.log(item);
+            
             router.addRoute(parent, item);
         }
     });
@@ -70,12 +74,11 @@ const addAdditionalRouter = () => {
 
 // 登录 生成动态路由
 const makeDynamicRoute = useroute => {
-    console.log(useroute);
+    
     
     routerPathList = [];
     const anysRouters = makeRouters(useroute);
-    console.log(anysRouters);
-    
+    console.log(anysRouters,'useroute1111111111');
     addAsyncRoutes(anysRouters);
     addAdditionalRouter();
     useCommonStoreHook().setUserRouterList(anysRouters);

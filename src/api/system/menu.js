@@ -1,25 +1,26 @@
-import { post } from "@/utils/http";
+import { post,get,baseUri,put,undel } from "@/utils/http";
 
 function baseUrlApi(str) {
   return `/api${str}`;
 }
 
 export const getResourceList = (data) => {
-  return post(baseUrlApi("/admin/resourceUrl/findPage"), data);
+  return post(baseUrlApi("/sys/menu/list"), data);
 };
 
 export const addMenu = (data) => {
-  return post(baseUrlApi("/admin/resourceUrl/save"), data);
+  return post(baseUrlApi("/sys/menu/add"), data);
 };
 
 export const getMenuInfo = (data) => {
-  return post(baseUrlApi("/admin/resourceUrl/findById"), data);
+  return get(baseUri("/sys/menu/fetchDetail"), data);
 };
 
 export const updateMenu = (data) => {
-  return post(baseUrlApi("/admin/resourceUrl/update"), data);
+  return put(baseUrlApi("/sys/menu/edit"), data);
 };
 
 export const delMenu = (data) => {
-  return post(baseUrlApi("/admin/resourceUrl/delete"), data);
+  const ids = data.map(id => `ids=${id}`).join('&')
+  return undel(baseUri("/sys/menu/remove?"+ids ));
 };
