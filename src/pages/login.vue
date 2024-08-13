@@ -139,10 +139,7 @@ const onLogin = async () => {
   const res = await useUserStoreHook().userLoginAction(loginParam);
   loginLoding.value = false;
   if (res.code === 200) {
-    const result =  await getUserInfo()
-    console.log(result.data.permissionCodes);
-    
-    localStorage.setItem('permission', JSON.stringify(result.data.permissionCodes));
+   
     ElMessage.success("登录成功");
     router.push("/");
   } else {

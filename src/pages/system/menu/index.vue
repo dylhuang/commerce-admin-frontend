@@ -6,7 +6,7 @@
         @click="handleAddMenu">添加
       </el-button>
      
-      <el-button  plain type="danger"  v-if="hasAuthBtn('system:user:delete')" :icon="Delete" @click="handleBatchDel">
+      <el-button  plain type="danger"   :icon="Delete" @click="handleBatchDel">
         删除
       </el-button>
       <el-button :icon="Top" @click="handleBackTop">顶级</el-button>

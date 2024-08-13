@@ -1,25 +1,34 @@
 <template>
-    <div class="p-2 bg-white mb-1 rounded-sm">
-        <el-row class="p-1">
-            <el-col :span="22">
-                <span>关键字 : </span>
-                <el-input class="!w-xs ml-1" :clearable="true" v-model.trim="searchKey" placeholder="请输入关键字" />
-            </el-col>
-            <el-col :span="2" class="flex justify-end">
-                <el-button type="primary" @click="handleSub">确定</el-button>
-            </el-col>
-        </el-row>
-    </div>
+        <div class="bg-white p-2 mb-1">
+            <el-form class="mt-3" ref="searchFormRef" :model="searchForm" :inline="true" >
+                    <el-form-item label="角色名称:" prop="keyword">
+                        <el-input v-model.trim="searchForm.keyword" placeholder="请输入角色名称" />
+                    </el-form-item>
+                    <el-form-item class="float-right">
+                        <el-button type="primary" @click="handleSub" :icon="Search">搜索</el-button>
+                        <el-button @click="handleReset(searchFormRef)" :icon="Refresh">重置</el-button>
+                    </el-form-item>
+        </el-form>
+        </div>
+       
 </template>
 
 <script setup>
-import { ref } from 'vue';
-const searchKey = ref("");
-const emits = defineEmits(["onSearch"]);
-const handleSub = () => {
-    emits("onSearch", searchKey.value);
-}
-
+import { ref,reactive } from 'vue';
+import { Search,Refresh,CaretBottom,CaretTop} from '@element-plus/icons-vue'
+    const searchForm = reactive({
+        keyword:''
+    });
+    const searchFormRef = ref(null);
+    const emits = defineEmits(["onSearch","onReset"]);
+    const handleSub = () => {
+        emits("onSearch", searchForm);
+    }
+    const handleReset = (formEl) => {
+        if (!formEl) return
+        formEl.resetFields();
+        emits("onReset", searchForm);
+    }
 </script>
 <style scoped lang="scss">
 

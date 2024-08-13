@@ -1,4 +1,4 @@
-import { post } from "@/utils/http";
+import { baseUri, post,get,undel} from "@/utils/http";
 
 function baseUrlApi(str) {
   return `/api${str}`;
@@ -9,21 +9,21 @@ export const getList = (data) => {
 };
 
 export const addItem = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/save"), data);
+  return post(baseUrlApi("/sys/role/add"), data);
 };
 
 export const getItem = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/findById"), data);
+  return get(baseUri("/sys/role/fetchDetail"), data);
 };
 
 export const updateItem = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/update"), data);
+  return post(baseUrlApi("/sys/role/edit"), data);
 };
 
 export const delItem = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/delete"), data);
+  const ids = data.map(id => `ids=${id}`).join('&')
+  return undel(baseUri("/sys/menu/remove?"+ids ));
 };
-
 export const getTree = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/findRoleTree"), data);
+  return post(baseUrlApi("/sys/menu/treeList"), data);
 };

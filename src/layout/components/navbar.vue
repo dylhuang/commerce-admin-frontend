@@ -9,7 +9,7 @@
     <section class="inline-flex">
       <el-dropdown>
         <span class="inline-flex items-center">
-          {{ userInfo.name }}
+          {{ userInfo.userName }}
           <el-icon size="20">
             <User style="width: 16px;height: 16px;margin-left: 2px;" />
           </el-icon>

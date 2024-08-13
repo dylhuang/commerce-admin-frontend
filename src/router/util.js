@@ -6,8 +6,6 @@ let routerPathList = [];
 const makeRouters = arry => {
     const anysRouters = [];
     arry.forEach(data => {
-     
-        
         const routeRecordRaw = {
             path: data.path,
             name: data?.path.substr(1).replace(/\//g, '-') || '',
@@ -16,7 +14,6 @@ const makeRouters = arry => {
                 // btns: data.roles,
             },
         };
-        console.log(data,'datalist');
         
         if ( data.parentId > 0 || data.path === '/index') {
             routeRecordRaw.componentUrl = `/src/pages${data.path}/index.vue`;
@@ -47,8 +44,6 @@ const addAsyncRoutes = (routers, parent = 'layout') => {
             });
         }
         if (item.name !== 'index') {
-            console.log(item);
-            
             router.addRoute(parent, item);
         }
     });

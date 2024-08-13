@@ -1,8 +1,6 @@
 import { defineStore } from 'pinia';
-import {  userLogin, getUserNavList } from '@/api/user.js';
+import {  userLogin, getUserNavList,getUserInfo } from '@/api/user.js';
 import { makeDynamicRoute } from '@/router/util';
-import { JSEncrypt } from 'jsencrypt';
-import { useCommonStoreHook } from './modules';
 export default defineStore('user', {
     state: () => {
         return {
@@ -19,8 +17,10 @@ export default defineStore('user', {
             localStorage.clear();
             const res2 = await userLogin(loginParam);
             if (res2.code === 200) {
-                this.setUserInfo(res2.data);
                 localStorage.setItem('token', res2.data.token);
+                const useRes = await getUserInfo()
+                this.setUserInfo(useRes.data);
+                localStorage.setItem('permission', JSON.stringify(useRes.data.permissionCodes));
                 this.setToken(res2.data.token);
                 const res3 = await this.getUserMenu();
                 return new Promise((resolve, reject) => {

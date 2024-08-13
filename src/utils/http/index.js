@@ -7,24 +7,25 @@ import apiLoadingList from '@/config/loadingApi.js';
 export function baseUri(str) {
     return `/api${str}`;
 }
-let token = localStorage.getItem('token');
+
+
 const request = axios.create({
     // baseURL: '',
     timeout: 80000,
     withCredentials: false, // 异步请求携带cookie
-    
     headers: {
         'Content-Type': 'application/json',
-        'Authorization' : 'Bearer '+ token,
     },
 });
-
 let loadingInstance = null;
 
 // request拦截器
 request.interceptors.request.use(
     config => {
-       
+        if(localStorage.getItem('token')){
+            let  token = localStorage.getItem('token')
+            config.headers.Authorization = "bearer " + token;
+        }
         if (apiLoadingList.includes(config.url)) {
             loadingInstance = ElLoading.service({
                 lock: true,
