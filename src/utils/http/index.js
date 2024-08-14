@@ -7,7 +7,7 @@ import apiLoadingList from '@/config/loadingApi.js';
 export function baseUri(str) {
     return `/api${str}`;
 }
-
+// let  token = localStorage.getItem('token')
 
 const request = axios.create({
     // baseURL: '',
@@ -15,6 +15,7 @@ const request = axios.create({
     withCredentials: false, // 异步请求携带cookie
     headers: {
         'Content-Type': 'application/json',
+        // 'Authorization':"bearer " + token,
     },
 });
 let loadingInstance = null;
@@ -24,7 +25,7 @@ request.interceptors.request.use(
     config => {
         if(localStorage.getItem('token')){
             let  token = localStorage.getItem('token')
-            config.headers.Authorization = "bearer " + token;
+            config.headers.Authorization = "Bearer " + token;
         }
         if (apiLoadingList.includes(config.url)) {
             loadingInstance = ElLoading.service({

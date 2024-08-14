@@ -73,7 +73,6 @@ const makeDynamicRoute = useroute => {
     
     routerPathList = [];
     const anysRouters = makeRouters(useroute);
-    console.log(anysRouters,'useroute1111111111');
     addAsyncRoutes(anysRouters);
     addAdditionalRouter();
     useCommonStoreHook().setUserRouterList(anysRouters);

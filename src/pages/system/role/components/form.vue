@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, nextTick } from "vue";
+import { ref, reactive,  } from "vue";
 import { getTree, addItem, getItem, updateItem } from "@/api/system/role";
 import { ElMessage } from "element-plus";
 

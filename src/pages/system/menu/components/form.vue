@@ -47,8 +47,6 @@ import {addMenu, getMenuInfo, updateMenu} from "@/api/system/menu";
 import {useCommonStoreHook} from "@/store/modules";
 import {ElMessage} from "element-plus";
 import IconSelect from "@/components/IconSelect/index.vue";
-
-const subSysList = useCommonStoreHook().subSystemList;
 const form = reactive({
   info: {
     aliasName: "",

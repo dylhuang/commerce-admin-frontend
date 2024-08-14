@@ -18,6 +18,7 @@ const routes = [
                 name: 'index',
                 component: Index,
             },
+          
         ],
     },
     // {

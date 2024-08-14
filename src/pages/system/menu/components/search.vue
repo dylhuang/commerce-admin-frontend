@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref,defineEmits } from 'vue';
 const menuName = ref("");
 const emits = defineEmits(["onSearch"]);
 const handleSub = () => {
