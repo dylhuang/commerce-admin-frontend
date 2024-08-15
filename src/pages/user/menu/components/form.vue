@@ -4,16 +4,16 @@
       <el-input disabled :value="parentName"/>
     </el-form-item>
     <el-form-item label="菜单名称">
-      <el-input v-model="form.info.menuName"/>
+      <el-input v-model="form.info.menuName" placeholder="请输入菜单名称"/>
     </el-form-item>
     <el-form-item label="权限标识">
-      <el-input v-model="form.info.code"/>
+      <el-input v-model="form.info.code" placeholder="权限标识"/>
     </el-form-item>
     <el-form-item label="路由名称">
-      <el-input v-model="form.info.routeName"/>
+      <el-input v-model="form.info.routeName" placeholder="请输入路由名称"/>
     </el-form-item>
-    <el-form-item label="路由地址">
-      <el-input v-model="form.info.path"/>
+    <el-form-item label="路由地址"  >
+      <el-input v-model="form.info.path" placeholder="请输入路由地址"/>
     </el-form-item>
     <el-form-item label="菜单类型">
       <el-radio-group v-model="form.info.menuType">
@@ -43,7 +43,7 @@
 <script setup>
 
 import {reactive} from "vue";
-import {addMenu, getMenuInfo, updateMenu} from "@/api/system/menu";
+import {addMenu, getMenuInfo, updateMenu} from "@/api/user/menu";
 import {useCommonStoreHook} from "@/store/modules";
 import {ElMessage} from "element-plus";
 import IconSelect from "@/components/IconSelect/index.vue";
@@ -60,10 +60,12 @@ const form = reactive({
     partitionId: "",
     code: "",
     path: "",
-    enable: true,
+    enable: 1,
     menuType:'',
   },
 });
+;
+
 const props = defineProps({
   id: {
     type: [String, Number],
@@ -129,3 +131,4 @@ defineExpose({
 })
 
 </script>
+@/api/user/menu

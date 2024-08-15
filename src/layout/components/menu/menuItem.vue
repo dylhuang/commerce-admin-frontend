@@ -30,7 +30,6 @@ const props = defineProps({
 })
 
 const handleRoute = () => {
-  console.log(props.menuInfo.path);
   router.push(props.menuInfo.path);
 }
 </script>

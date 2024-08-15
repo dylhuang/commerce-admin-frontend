@@ -26,7 +26,7 @@
                </el-tooltip>
                <el-tooltip class="box-item" effect="dark" content="删除"
                  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="error" @click="handleDel(scope.row.id)"
+                 <el-link class="ml-10px" :underline="false" type="danger" @click="handleDel(scope.row.id)"
                    :icon="Delete" />
                </el-tooltip>
              </template>
@@ -46,7 +46,7 @@
    
    <script setup  >
    import { ref, reactive,onMounted } from "vue";
-   import { getNoticeList,deleteNotice} from "@/api/notice/system";
+   import { getNoticeList,deleteNotice} from "@/api/system/notice";
    import { CirclePlus, Top, Back, Delete, Edit } from "@element-plus/icons-vue";
    import MenuForm from "./components/form.vue";
    import SearchForm from "./components/search.vue";
@@ -143,4 +143,4 @@
      margin-bottom: 0;
    }
    </style>
-   
+   @/api/system/notice/system

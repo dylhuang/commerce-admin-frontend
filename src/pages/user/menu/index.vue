@@ -2,13 +2,13 @@
   <SearchForm :currentTags="currentTags" @onSearch="handleSubChange" />
   <div class="bg-white p-2 rounded-sm">
     <div class="p-2">
-      <el-button  plain v-if="hasAuthBtn('system:user:add')" type="primary" :icon="CirclePlus" class="!ml-0"
+      <el-button  plain v-if="hasAuthBtn('user:user:add')" type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAddMenu">添加
       </el-button>
-     
+<!--      
       <el-button  plain type="danger"   :icon="Delete" @click="handleBatchDel">
         删除
-      </el-button>
+      </el-button> -->
       <el-button :icon="Top" @click="handleBackTop">顶级</el-button>
       <el-button v-show="currentTags.length" :icon="Back" @click="handleBackStep" class="mr-3">上一级
       </el-button>
@@ -44,6 +44,11 @@
               <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.menuName)"
                 :icon="Edit" />
             </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" content="删除"
+              placement="top-start">
+              <el-link class="ml-10px" :underline="false" type="danger" @click="handleBatchDel(scope.row.id)"
+                :icon="Delete" />
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -62,7 +67,7 @@
 
 <script setup  >
 import { ref, reactive,onMounted } from "vue";
-import { delMenu, getResourceList } from "@/api/system/menu";
+import { delMenu, getResourceList } from "@/api/user/menu";
 import { CirclePlus, Top, Back, Delete, Edit } from "@element-plus/icons-vue";
 import MenuForm from "./components/form.vue";
 import SearchForm from "./components/search.vue";
@@ -144,30 +149,17 @@ const handleEdit = (id, name) => {
   }
   formVisible.value = true;
 };
-const handleDel = async ids => {
+const handleBatchDel = async ids => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
   
-  // const ids = {...id}
-  // let ids = 6
-  
-  const result = await delMenu(ids);
+  const result = await delMenu([ids]);
   if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }
 };
-const handleBatchDel = async () => {
-  if (!multipleSelection.value.length) {
-    ElMessage({
-      message: '请选择删除数据',
-      type: 'error',
-    });
-    return
-  }
-  const ids = multipleSelection.value.map(item => item.id);
-  await handleDel(ids)
-}
+
 // 当前位置
 
 const handleNext = (id, name) => {
@@ -195,3 +187,4 @@ const handleBackStep = () => {
   margin-bottom: 0;
 }
 </style>
+@/api/user/menu

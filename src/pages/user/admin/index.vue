@@ -5,9 +5,6 @@
       <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAdd">添加
       </el-button>
-      <el-button  plain  type="danger" :icon="Delete" @click="handleBatchDel">删除
-      </el-button>
-     
     </div>
   </div>
   <div>
@@ -16,11 +13,6 @@
       <el-table-column type="index" width="60" label="序号" align="center" />
       <el-table-column prop="userName" label="用户名" width="120" align="center" />
       <el-table-column prop="nickName" label="昵称" width="90" align="center" />
-      <el-table-column label="所属角色" align="center">
-        <template #default="scope">
-          <p style="float: left" v-if="scope.row.department">{{ scope.row.department.name }}</p>
-        </template>
-      </el-table-column>
       <el-table-column label="联系方式" align="center">
         <template #default="scope">
           <p style="float: left">{{ scope.row.mobile }}</p><br>
@@ -36,13 +28,18 @@
         <template #default="scope">
           <el-tooltip  class="box-item" effect="dark" content="编辑"
             placement="top-start">
-            <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.name)"
+            <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.nickName)"
               :icon="Edit" />
           </el-tooltip>
           <el-tooltip  class="box-item" effect="dark" content="设置密码"
             placement="top-start">
             <el-link class="ml-10px" :underline="false" type="primary" :icon="Setting"
-              @click="handleRePassword(scope.row.id, scope.row.name)" />
+              @click="handleRePassword(scope.row.id, scope.row.nickName)" />
+          </el-tooltip>
+          <el-tooltip  class="box-item" effect="dark" content="删除"
+            placement="top-start">
+            <el-link class="ml-10px" :underline="false" type="danger" :icon="Delete"
+              @click="handleBatchDel(scope.row.id)" />
           </el-tooltip>
         </template>
       </el-table-column>
@@ -65,10 +62,8 @@ import SearchForm from "./components/search.vue";
 import Pagination from "@/components/pagination.vue";
 import AdminForm from "./components/form.vue";
 import PasswordForm from "./components/password.vue";
-import { findPage, delItem, locked, enable } from "@/api/system/admin";
-import { roleTypes } from "@/api/common/constant";
+import { findPage, delItem } from "@/api/user/admin";
 import { hasAuthBtn } from "@/utils/permission";
-import { useUserStoreHook } from "@/store/modules"
 import {
   CirclePlus,
   Delete,
@@ -117,12 +112,12 @@ const handleSizeChange = val => {
   getPageList();
 };
 const handelCurrentChange = val => {
-  pageParam.pageNumber = val;
+  pageParam.pageNum = val;
   getPageList();
 };
 const handleRefreshData = () => {
   formVisible.value = false;
-  pageParam.pageNumber = 1;
+  pageParam.pageNum = 1;
   getPageList();
 }
 const handleClose = () => {
@@ -163,23 +158,23 @@ const handleRePassword = (id, name) => {
   currentId.value = id;
   formPwVisible.value = true;
 }
-const handleDel = async (data) => {
+const handleBatchDel = async (ids) => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
-  const result = await delItem({ ids: data });
+  const result = await delItem([ids]);
   if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }
 }
-const handleBatchDel = async () => {
-  if (!multipleSelection.value.length) {
-    ElMessage.warning("请选择删除数据");
-    return
-  }
-  const ids = multipleSelection.value.map(item => item.id);
-  await handleDel(ids)
-}
+// const handleBatchDel = async () => {
+//   if (!multipleSelection.value.length) {
+//     ElMessage.warning("请选择删除数据");
+//     return
+//   }
+//   const ids = multipleSelection.value.map(item => item.id);
+//   await handleDel(ids)
+// }
 
 
 

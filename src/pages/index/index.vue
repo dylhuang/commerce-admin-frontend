@@ -1,148 +1,89 @@
 <template>
- <SearchForm @onSearch="handleSearch" @onReset="handleReset" />
-  <div class="bg-white p-2 rounded-sm">
-    <div class="p-2">
-      <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0" @click="handleAdd">添加</el-button>
-     
-    </div>
-      <el-table :data="tableInfo.tableData" border style="width: 100%" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55" />
-        <el-table-column type="index" width="60" label="序号" align="center" />
-        <el-table-column label="商品编码" prop="title"> </el-table-column>
-        <el-table-column label="商品名称" prop="title"> </el-table-column>
-        <el-table-column label="状态">
-          <template #default="scope">
-            <el-tag type="success" v-if="scope.row.popup == 1">启用</el-tag>
-            <el-tag type="danger" v-else>禁用</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="活动单价" prop="title" sortable ></el-table-column>
-        <el-table-column label="日常单价" prop="title" sortable ></el-table-column>
-        <el-table-column label="日常可销售" prop="title"></el-table-column>
-        <el-table-column label="会议可销售" prop="title"></el-table-column>
-        <el-table-column label="操作" align="center">
-          <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="Success" @click="handleDel(scope.row.id)" :icon="Reading" />
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="编辑" placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.title)" :icon="Edit" />
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="删除"  placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="error" @click="handleDel(scope.row.id)" :icon="Delete" />
-            </el-tooltip>
-            
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-  <!-- 分页 -->
+  <div class="home flex-w justify-center items-center">
+    <div class="flex justify-center home-tilte">欢迎来到 宇修后台 管理系统</div>
+    <img class="home-img" src="../../assets/imgs/home_head.png" />
 
-  <Pagination :total="tableInfo.total" @sizeChange="handleSizeChange" @currentChange="handelCurrentChange"
-    :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNumber" />
-
-  <!-- form dialog -->
-  <el-dialog v-model="formVisible" :title="dialogTitle" width="50%" @opened="handleInitForm">
-    <MenuForm ref="menuFormRef" :id="editId"  @closeDialog="formVisible = false" @refreshData="handleRefreshData" />
-  </el-dialog>
+    <!-- <div class="view-wrap" ref="viewWrap" @scroll="onScroll" :style="{'--rowHeight':itemHeight+'px'}">
+      <div class="view-scroll-bar" ref="scrollBar"></div>
+      <div class="view-content" ref="viewContent">
+        <div class="show-item" v-for="item in showList">{{ item }}</div>
+      </div>
+    </div> -->
+  </div>
 </template>
 
-<script setup  >
-import { ref, reactive,onMounted } from "vue";
-import { getNoticeList,deleteNotice} from "@/api/notice/system";
-import { CirclePlus, Top, Back, Delete, Edit,Reading } from "@element-plus/icons-vue";
-import MenuForm from "./components/form.vue";
-import SearchForm from "./components/search.vue";
-import Pagination from "@/components/pagination.vue";
-// import { hasAuthBtn } from "@/utils/permission";
-import { confirmBox } from "@/utils/feedBack/confirm";
-import { ElMessage } from "element-plus";
+<script setup>
+import { ref, computed, onMounted, nextTick } from "vue";
 
-const multipleSelection = ref([]);
-const currentTags = ref([]);
-const handleSelectionChange = (val) => {
-  multipleSelection.value = val;
-}
-const handleSearch = (val) => {
-  pageParam.title = val.keyword;
-  pageParam.pageNum = 1;
-  getTableList();
-};
-const handleReset = (val) => {
-  pageParam.title = val.keyword;
-  pageParam.pageNum = 1;
-  getTableList();
-};
-onMounted(()=>{
-  getTableList()
+const startIndex = ref(0);
+const endIndex = ref(30);
+const showLength = ref(25);
+const itemHeight = ref(20);
+const showList = computed(() => {
+  return bigList.slice(startIndex.value, endIndex.value);
 })
-const pageParam = reactive({
-  title:'',
-  pageNum:1,
-  pageSize:10
-});
-// 弹框
-const menuFormRef = ref(null);
-const formVisible = ref(false);
-const dialogTitle = ref("新增公告")
-const editId = ref("");
-const handleInitForm = () => {
-  menuFormRef.value.initInfo();
-}
-// 表格数据
-const tableInfo = reactive({
-  tableData: [],
-  total: 0
-});
-const getTableList = async () => {
-  const result = await getNoticeList(pageParam);
-  if (result.code === 200) {
-    tableInfo.tableData = result.data.list || [];
-    tableInfo.total = result.data.total;
-  }
-};
-const handleSizeChange = val => {
-  pageParam.pageSize = val;
-  getTableList();
-};
-const handelCurrentChange = val => {
-  pageParam.pageNum = val;
-  getTableList();
-};
-const handleRefreshData = () => {
-  pageParam.pageNum = 1;
-  formVisible.value = false;
-  getTableList();
+const bigList = new Array(3000).fill(0).map((item, index) => { return index + 1 });
+const viewWrap = ref(null);
+const scrollBar = ref(null);
+const viewContent = ref(null);
+
+const onScroll = ()=>{
+  console.log(viewWrap.value.scrollTop);
+  const scrollTop = viewWrap.value.scrollTop;
+  startIndex.value = Math.floor(scrollTop / itemHeight.value);
+  endIndex.value = startIndex.value + showLength.value;
+  // viewContent.value.style.transform = `translate3d(0, ${scrollTop}px, 0)`;
+  viewContent.value.style.transform = `translateY(${scrollTop}px)`;
 }
 
-
-
-const handleAdd = () => {
-  editId.value = '',
-  dialogTitle.value = "新增公告";
-  formVisible.value = true;
-}
-const handleEdit = (id, name) => {
-  editId.value = id;
-  dialogTitle.value = `${name}-编辑`;
-  formVisible.value = true;
-};
-const handleDel = async (noticeId) => {
-  const canDel = await confirmBox("是否确认删除数据");
-  if (!canDel) return;
-  const result = await deleteNotice({noticeId});
-  if (result.code === 200) {
-    ElMessage.success("操作成功");
-    handleRefreshData();
-  }
-};
-
-
-
+// onMounted(() => {
+//   nextTick(() => {
+//     viewWrap.value.style.height = (itemHeight.value * showLength.value) + 'px';
+//     scrollBar.value.style.height = (itemHeight.value * bigList.length) + 'px';
+//   })
+// })
 </script>
 
 <style lang="scss" scoped>
-.el-form-item {
-  margin-bottom: 0;
+.home {
+  height: 820px;
+  background-color: #fff;
+
+
+}
+
+// .home-tilte {
+//   padding-top: 100px;
+//   font-size: 30px;
+//   font-weight: 600;
+// }
+.home-img {
+  width: 100%;
+  height: auto;
+  margin: auto;
+}
+
+.view-wrap {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  transform: translate(-50%, -50%);
+  background-color: aquamarine;
+  overflow-y: auto;
+}
+
+.view-scroll-bar {
+  // width: 400px;
+  // height: 2000px;
+}
+
+.view-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  .show-item{
+    height: var(--rowHeight);
+  }
 }
 </style>

@@ -38,7 +38,7 @@
 
 <script setup>
 import { ref, reactive,  } from "vue";
-import { getTree, addItem, getItem, updateItem } from "@/api/system/role";
+import { getTree, addItem, getItem, updateItem } from "@/api/user/role";
 import { ElMessage } from "element-plus";
 
 const props = defineProps({
@@ -102,9 +102,6 @@ const getRoleTree = async () => {
   }
 }
 
-
-
-
 const emit = defineEmits(["closeDialog", "refreshData"]);
 const handleCancel = (formEl) => {
   if (!formEl) return
@@ -130,14 +127,17 @@ const handleSub = async (formEl) => {
   if (res.code === 200) {
     ElMessage.success("保存成功");
     emit("refreshData");
+    checkNodes.value=[]
   }
 }
 const initInfo = () => {
   resetForm();
   if (props.id) {
     getFormInfo();
+  } else{
+    getRoleTree();
   }
-  getRoleTree();
+ 
  
 }
 defineExpose({
@@ -146,3 +146,4 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped></style>
+@/api/user/role

@@ -22,19 +22,15 @@ export const updateItem = (data) => {
 
 export const delItem = (data) => {
   const ids = data.map(id => `ids=${id}`).join('&')
-  return undel(baseUri("/sys/menu/remove?"+ids ));
+  return undel(baseUri("/sys/user/remove?"+ids ));
 };
 export const getList = (data) => {
   return post(baseUrlApi("/sys/role/pageList"), data);
 }
-export const locked = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/admin/locked"), data);
-};
+
 
 export const rePassword = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/admin/rePassword"), data);
+  return post(baseUrlApi("/sys/user/resetPwd"), data);
 };
 
-export const enable = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/admin/enable"), data);
-};
+

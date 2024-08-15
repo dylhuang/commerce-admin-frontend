@@ -1,10 +1,10 @@
 <template>
     <div class="bg-white p-2 mb-1">
         <el-form class="mt-3" ref="searchFormRef" :model="searchForm" :inline="true" >
-                <el-form-item label="关键字:" prop="keyword">
+                <el-form-item label="用户名称:" prop="keyword">
                     <el-input v-model.trim="searchForm.keyword" placeholder="请输入关键字" />
                 </el-form-item>
-                <el-form-item class="float-right">
+                <el-form-item >
                     <el-button type="primary" @click="handleSub" :icon="Search">搜索</el-button>
                     <el-button @click="handleReset(searchFormRef)" :icon="Refresh">重置</el-button>
                 </el-form-item>

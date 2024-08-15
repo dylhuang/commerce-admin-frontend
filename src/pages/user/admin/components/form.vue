@@ -4,7 +4,7 @@
       <el-form-item label="用户名" prop="userName">
         <el-input v-model="form.userName" placeholder="请输入用户名" />
       </el-form-item>
-      <el-form-item label="密码" prop="password">
+      <el-form-item v-if="passwordId == null" label="密码" prop="password">
         <el-input
           v-model="form.password"
           type="password"
@@ -15,29 +15,25 @@
         <el-input v-model="form.nickName" placeholder="请输入昵称" />
       </el-form-item>
 
-      <el-form-item label="角色">
+      <el-form-item label="角色" prop="roleIds">
         <el-select v-model="form.roleIds" multiple>
-          <el-option
-            :label="item.roleName"
-            :value="item.id"
-            v-for="item in roleList"
-            :key="item.id"
+          <el-option :label="item.roleName" :value="item.id" v-for="item in roleList" :key="item.id"
           />
         </el-select>
       </el-form-item>
-      <el-form-item label="性别">
+      <el-form-item label="性别" prop="gender">
         <el-radio-group v-model="form.gender">
-          <el-radio label="0">男</el-radio>
-          <el-radio label="1">女</el-radio>
+          <el-radio :label=0>男</el-radio>
+          <el-radio :label=1>女</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="邮箱">
+      <el-form-item label="邮箱" prop="email">
         <el-input v-model="form.email" placeholder="请输入邮箱" />
       </el-form-item>
-      <el-form-item label="电话">
+      <el-form-item label="电话" prop="phone">
         <el-input v-model="form.phone" placeholder="请输入电话" />
       </el-form-item>
-      <el-form-item label="备注">
+      <el-form-item label="备注" prop="remark">
         <el-input v-model="form.remark" placeholder="请输入备注" />
       </el-form-item>
       <el-form-item>
@@ -50,12 +46,13 @@
 
 <script setup>
 import { reactive, ref } from "vue";
-import { addItem, updateItem, getItem,getList } from "@/api/system/admin";
+import { addItem, updateItem, getItem,getList } from "@/api/user/admin";
 import { ElMessage } from "element-plus";
 
 const roleList = ref([]);
-
+const passwordId = ref(null)
 const form = ref({
+    id:'',
     userName: "",
     password: "",
     nickName: "",
@@ -74,12 +71,24 @@ const props = defineProps({
 
  
 });
+const validateText = (rule, value, callback) => {
+   if (value !== "" && /[^a-zA-Z]/g.test(value)) {
+    callback(new Error("请输入字母"));
+   } else {
+    callback();
+   }
+  };
+
 const rules = reactive({
   userName: [
-    { required: true, message: '请输入用户名称', trigger: 'blur' },
+    { required: true,validator:validateText, trigger: 'blur' },
+    { required: true,message: '请输入用户名称', trigger: 'blur' },
   ],
   password: [
     { required: true, message: '请输入用户密码', trigger: 'blur' },
+  ],
+  roleIds: [
+    { required: true, message: '请选择角色'},
   ]
 })
 
@@ -92,7 +101,14 @@ const getRoleList = async () => {
 const getFormInfo = async (id) => {
   const result = await getItem({ id });
   if (result.code === 200) {
-    form.value = result.data;
+    form.value.userName = result.data.userName
+    form.value.nickName = result.data.nickName
+    form.value.email = result.data.email
+    form.value.phone = result.data.phone
+    form.value.roleIds = result.data.roleVOS.map(item=>Number(item.roleId))
+    form.value.gender = result.data.gender
+    form.value.remark = result.data.remark
+    
   }
 };
 const emit = defineEmits(["closeDialog", "refreshData"]);
@@ -115,12 +131,15 @@ const handleSub = async (formEl) => {
       message: "保存成功",
       type: "success",
     });
+    passwordId.value = null
+    formEl.resetFields()
     emit("closeDialog");
     emit("refreshData");
   }
 };
 const handleCancel = (formEl) => {
   if (!formEl) return
+  passwordId.value = null
   formEl.resetFields()
   emit("closeDialog");
 };
@@ -128,6 +147,8 @@ const initInfo = () => {
  
   getRoleList();
   if (props.id) {
+    passwordId.value = props.id
+    form.value.id = props.id
     getFormInfo(props.id);
   }
 };
@@ -141,3 +162,4 @@ defineExpose({
   width: 800px;
 }
 </style>
+@/api/user/admin

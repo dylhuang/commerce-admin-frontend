@@ -5,8 +5,7 @@
       <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAdd">添加
       </el-button>
-      <el-button  plain  type="danger" :icon="Delete" @click="handleBatchDel">删除
-      </el-button>
+    
     </div>
     <div>
       <el-table :data="pageInfo.table" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -21,6 +20,11 @@
               placement="top-start">
               <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.roleName)"
                 :icon="Edit" />
+            </el-tooltip>
+            <el-tooltip class="box-item" effect="dark" content="删除"
+              placement="top-start">
+              <el-link class="ml-10px" :underline="false" type="danger" @click="handleBatchDel(scope.row.id)"
+                :icon="Delete" />
             </el-tooltip>
           </template>
         </el-table-column>
@@ -40,7 +44,7 @@ import { ref, reactive, onMounted } from "vue";
 import SearchForm from "./components/search.vue";
 import Pagination from "@/components/pagination.vue";
 import RoleForm from "./components/form.vue";
-import { getList, delItem } from "@/api/system/role";
+import { getList, delItem } from "@/api/user/role";
 import { hasAuthBtn } from "@/utils/permission";
 import { CirclePlus, Delete, Edit } from "@element-plus/icons-vue";
 import { confirmBox } from "@/utils/feedBack/confirm";
@@ -113,23 +117,23 @@ const handleEdit = (id, name) => {
   currentId.value = id;
   formVisible.value = true;
 }
-const handleDel = async (data) => {
+const handleBatchDel = async (ids) => {
   const canDel = await confirmBox("是否确认删除数据");
   if (!canDel) return;
-  const result = await delItem(data);
+  const result = await delItem([ids]);
   if (result.code === 200) {
     ElMessage.success("操作成功");
     handleRefreshData();
   }
 }
-const handleBatchDel = async () => {
-  if (!multipleSelection.value.length) {
-    ElMessage.warning("请选择删除数据");
-    return
-  }
-  const ids = multipleSelection.value.map(item => item.id);
-  await handleDel(ids)
-}
+// const handleBatchDel = async () => {
+//   if (!multipleSelection.value.length) {
+//     ElMessage.warning("请选择删除数据");
+//     return
+//   }
+//   const ids = multipleSelection.value.map(item => item.id);
+//   await handleDel(ids)
+// }
 
 onMounted(() => {
   getRoleList();
@@ -137,3 +141,4 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped></style>
+@/api/user/role

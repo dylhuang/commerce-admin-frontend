@@ -22,7 +22,7 @@ export const updateItem = (data) => {
 
 export const delItem = (data) => {
   const ids = data.map(id => `ids=${id}`).join('&')
-  return undel(baseUri("/sys/menu/remove?"+ids ));
+  return undel(baseUri("/sys/role/remove?"+ids ));
 };
 export const getTree = (data) => {
   return post(baseUrlApi("/sys/menu/treeList"), data);

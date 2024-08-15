@@ -22,7 +22,7 @@ export default defineComponent({
     const { sliderCollapse } = storeToRefs(useCommonStoreHook());
     const collapse = ref(sliderCollapse)
     const logo = ref(logoImg)
-    const title = ref('宇修前端管理系统')
+    const title = ref('宇修管理系统')
     return {
       logo,
       title,

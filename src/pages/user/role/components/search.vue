@@ -4,7 +4,7 @@
                     <el-form-item label="角色名称:" prop="keyword">
                         <el-input v-model.trim="searchForm.keyword" placeholder="请输入角色名称" />
                     </el-form-item>
-                    <el-form-item class="float-right">
+                    <el-form-item >
                         <el-button type="primary" @click="handleSub" :icon="Search">搜索</el-button>
                         <el-button @click="handleReset(searchFormRef)" :icon="Refresh">重置</el-button>
                     </el-form-item>
