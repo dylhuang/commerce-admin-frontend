@@ -5,7 +5,7 @@ function baseUrlApi(str) {
 }
 
 export const getResourceList = (data) => {
-  return post(baseUrlApi("/sys/menu/list"), data);
+  return post(baseUrlApi("/sys/menu/pageList"), data);
 };
 
 export const addMenu = (data) => {

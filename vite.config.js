@@ -50,8 +50,8 @@ export default defineConfig({
         hot:true,
         proxy: {
             '/api/': {
-                // target: 'http://47.108.117.127:8081',
-                target: 'http://192.168.9.107:8081',
+                target: 'http://47.108.117.127:8081',
+                // target: 'http://192.168.9.107:8081',
                 // changeOrigin: true,
                 // rewrite: path => path.replace(/^\/api/, ''),
             },

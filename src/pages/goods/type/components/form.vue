@@ -30,7 +30,7 @@
 
 <script setup>
 import { onMounted, reactive, ref, shallowRef } from "vue";
-import { addMerchandise, editGoods, detailGoods } from "@/api/goods/goods";
+import { addMerchandise, editGoods, detailGoods } from "@/api/goods/type";
 import { ElMessage } from "element-plus";
 import IconSelect from "@/components/IconSelect/index.vue";
 const emit = defineEmits(["closeDialog", "refreshData"]);

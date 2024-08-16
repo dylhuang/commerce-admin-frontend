@@ -47,7 +47,7 @@
   </div>
   <!-- 分页 -->
   <Pagination :total="pageInfo.total" @sizeChange="handleSizeChange" @currentChange="handelCurrentChange"
-    :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNumber" />
+    :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNum" />
   <el-dialog v-model="formVisible" :title="dialogTitle" width="40%" @opened="handleInitForm">
     <AdminForm ref="adminForm" :id="currentId" @closeDialog="handleClose" @refreshData="handleRefreshData" />
   </el-dialog>

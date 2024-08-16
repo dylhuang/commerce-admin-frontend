@@ -24,11 +24,10 @@
       </el-radio-group>
     </el-form-item>
     <el-form-item label="Icon">
-<!--      <el-input v-model="form.info.icon"/>-->
       <icon-select v-model="form.info.icon" />
     </el-form-item>
     <el-form-item label="是否启用">
-      <el-checkbox v-model="form.info.enable"/>
+      <el-checkbox v-model="checkEnable" @change="handleChange"/>
     </el-form-item>
     <el-form-item label="排序">
       <el-input v-model="form.info.orderNum"/>
@@ -42,25 +41,23 @@
 
 <script setup>
 
-import {reactive} from "vue";
+import {reactive,ref} from "vue";
 import {addMenu, getMenuInfo, updateMenu} from "@/api/user/menu";
 import {useCommonStoreHook} from "@/store/modules";
 import {ElMessage} from "element-plus";
 import IconSelect from "@/components/IconSelect/index.vue";
+const checkEnable = ref(true)
 const form = reactive({
   info: {
-    aliasName: "",
-    description: "",
     icon: "",
     id: null,
     menuName: "",
     orderNum: 0,
     routeName:'',
     parentId: "",
-    partitionId: "",
     code: "",
     path: "",
-    enable: 1,
+    isEnable: 1,
     menuType:'',
   },
 });
@@ -72,11 +69,8 @@ const props = defineProps({
     required: false,
   },
   parentId: {
-    type: String,
+    type: [String, Number],
     required: true,
-  },
-  partitionId: {
-    type: String
   },
   parentName: {
     type: String
@@ -86,11 +80,17 @@ const getFormInfo = async (id) => {
   const result = await getMenuInfo({id});
   if (result.code === 200) {
     form.info = result.data;
+    checkEnable.value = result.data.isEnable== 1 ? true : false
   }
 };
+const handleChange = (value) =>{
+  form.info.isEnable = value ? 1 :0
+  
+}
 const emit = defineEmits(["closeDialog", "refreshData"]);
 const handleSub = async () => {
   let result;
+  form.info.isEnable = checkEnable.value ? 1 : 0
   if (form.info.id) {
     result = await updateMenu(form.info);
   } else {
@@ -109,18 +109,16 @@ const handleCancel = () => {
 };
 const initInfo = () => {
   form.info = {
-    aliasName: "",
-    description: "",
     icon: "",
     id: null,
     menuName: "",
     orderNum: 0,
     routeName:'',
     parentId: props.parentId,
-    partitionId: props.partitionId,
     code: "",
     path: "",
-    menuType:''
+    menuType:'',
+    isEnable: true,
   }
   if (props.id) {
     getFormInfo(props.id);
@@ -131,4 +129,3 @@ defineExpose({
 })
 
 </script>
-@/api/user/menu

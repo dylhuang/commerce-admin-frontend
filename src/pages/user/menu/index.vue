@@ -5,10 +5,6 @@
       <el-button  plain v-if="hasAuthBtn('user:user:add')" type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAddMenu">添加
       </el-button>
-<!--      
-      <el-button  plain type="danger"   :icon="Delete" @click="handleBatchDel">
-        删除
-      </el-button> -->
       <el-button :icon="Top" @click="handleBackTop">顶级</el-button>
       <el-button v-show="currentTags.length" :icon="Back" @click="handleBackStep" class="mr-3">上一级
       </el-button>
@@ -32,7 +28,7 @@
         </el-table-column>
         <el-table-column label="是否启用">
           <template #default="scope">
-            <el-tag type="success" v-if="scope.row.enable">启用</el-tag>
+            <el-tag type="success" v-if="scope.row.isEnable == 1">启用</el-tag>
             <el-tag type="danger" v-else>禁用</el-tag>
           </template>
         </el-table-column>
@@ -101,8 +97,8 @@ const tableInfo = reactive({
 const getTableList = async () => {
   const result = await getResourceList(pageParam);
   if (result.code === 200) {
-    tableInfo.tableData = result.data || [];
-    tableInfo.total = result.data.totalCount - 0;
+    tableInfo.tableData = result.data.list || [];
+    tableInfo.total = result.data.total;
   }
 };
 const handleSizeChange = val => {
@@ -187,4 +183,3 @@ const handleBackStep = () => {
   margin-bottom: 0;
 }
 </style>
-@/api/user/menu
