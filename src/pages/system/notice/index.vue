@@ -143,4 +143,3 @@
      margin-bottom: 0;
    }
    </style>
-   @/api/system/notice/system

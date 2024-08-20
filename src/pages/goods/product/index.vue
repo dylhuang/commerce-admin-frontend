@@ -36,7 +36,7 @@
          <el-table-column label="操作" align="center">
            <template #default="scope">
             <el-tooltip class="box-item" effect="dark" content="绑定服务类型"  placement="top-start">
-               <el-link class="ml-10px" :underline="false" type="Warning" @click="handleType(scope.row.id)" :icon="CirclePlus" />
+               <el-link class="ml-10px" :underline="false" type="warning" @click="handleType(scope.row.id)" :icon="CirclePlus" />
              </el-tooltip>
              <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
                <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id,scope.row.merchandiseName)" :icon="Reading" />
@@ -75,15 +75,8 @@
    </el-dialog>
    <!-- 绑定服务类型 -->
    <el-dialog v-model="typelVisible" :title="typeTitle" center width="50%" @opened="handleTypeDetail">
-      <serviceType ref="menuTypeRef"  :id="typeId"   />
-      <template #footer>
-      <div class="dialog-footer">
-        <el-button @click="detailVisible = false">取消</el-button>
-        <el-button type="primary" @click="detailVisible = false">
-          确认
-        </el-button>
-      </div>
-    </template>
+      <serviceType ref="menuTypeRef"  :id="typeId" @closeDialog="typelVisible= false"  @refreshData="handleRefreshData" />
+      
    </el-dialog>
  </template>
  
@@ -99,6 +92,7 @@
  import { hasAuthBtn } from "@/utils/permission";
  import { confirmBox } from "@/utils/feedBack/confirm";
  import { ElMessage } from "element-plus";
+import router from "@/router";
  
  const multipleSelection = ref([]);
  const handleSelectionChange = (val) => {
@@ -107,7 +101,11 @@
 // 绑定类型
 const menuTypeRef = ref(null)
 const typelVisible = ref(false)
-const handleType = () =>{
+const typeTitle = ref('绑定服务类型')
+const typeId = ref(null)
+
+const handleType = (id) =>{
+  typeId.value  = id
   typelVisible.value = true
 }
 const handleTypeDetail = () =>{
@@ -122,6 +120,8 @@ const menuDetailRef= ref(null)
 
 // 详情
 const handlelDetail = (id,name) =>{
+  
+  // router.push('/goods/product/detail?id='+ id)
   detailVisible.value = true
   detailId.value = id
   dialogTitle.value = `${name}-编辑`;
@@ -187,6 +187,7 @@ const changeSwitch = async(merchandiseId ) =>{
  const handleRefreshData = () => {
    pageParam.pageNum = 1;
    formVisible.value = false;
+   typelVisible.value = false;
    getTableList();
  }
  

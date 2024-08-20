@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <el-card class="box-card">
         <el-row>
             <el-col :span="12">
                 <div class="flex">
@@ -55,42 +55,58 @@
                 <div class="leftName">状态：</div>{{dataDetail.stuas == 10 ? '可销售' : '不可销售'}}
                </div>
             </el-col>
-           
+            <el-col :span="12">
+               <div class="flex">
+                <div class="leftName">绑定服务类型：</div>{{goodsType}}
+               </div>
+            </el-col>
         </el-row>
-    </div>
+    <el-row class="mt-2 btn">
+      <el-button @click="handleCancel">返回</el-button>
+    </el-row>
+
+    </el-card>
 </template>
 
 <script setup>
 import { ref,onMounted } from "vue";
-import { detailType } from "@/api/goods/type";
-const props = defineProps({
-    id: null
-});
+import { detailGoods } from "@/api/goods/goods";
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const merchandiseId = ref(null)
 const dataDetail = ref({})
 const goodsType = ref()
-const getDetail = async() =>{
-  let serviceTypeId = props.id
+const getDetail = async(merchandiseId) =>{
   
-  const res = await detailType({serviceTypeId})
+  const res = await detailGoods({merchandiseId})
   if(res.code == 200) {
     dataDetail.value = res.data
-    goodsType.value =  res.data.serviceTypeVOList.map(item=>{
-        item.name
-    })
-    console.log(  goodsType.value );
+    goodsType.value =  res.data.serviceTypeVOList.map(item=>item.serviceTypeName).join(',')
+    console.log(goodsType.value);
     
   }
 }
 
-defineExpose({
-    getDetail,
-})
+const handleCancel = () =>{
+    router.push('/goods/product')
+}
 
+onMounted(()=>{
+    console.log(router);
+    
+    merchandiseId.value = router.currentRoute.value.query.id;
+    getDetail(merchandiseId.value)
+})
 </script>
 
 <style lang="scss" scoped>
     .leftName{
         width: 100px;
         // text-align: right;
+    }
+    .btn{
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
     }
 </style>

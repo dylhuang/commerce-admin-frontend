@@ -24,7 +24,7 @@
           <span>角色授权</span>
         </template>
         <el-tree ref="treeRef" class="h-350px overflow-y-auto" :data="treeList" :props="treeProps" show-checkbox
-          node-key="id" :default-checked-keys="checkNodes" />
+          node-key="id" :check-strictly="false" />
       </el-card>
     </el-col>
   </el-row>
@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, reactive,  } from "vue";
+import { ref, reactive, nextTick,  } from "vue";
 import { getTree, addItem, getItem, updateItem } from "@/api/user/role";
 import { ElMessage } from "element-plus";
 
@@ -83,10 +83,12 @@ const rules = reactive({
   ]
 })
 const getCheckedNodes = () => {
-  const list = treeRef.value.getCheckedNodes(false, false);
-  formInfo.menuIds = list.map(item => item.id);
+  let checkedKeys = treeRef.value.getCheckedKeys();
+  let halfCheckedKeys = treeRef.value.getHalfCheckedKeys();
+  checkedKeys.unshift.apply(checkedKeys, halfCheckedKeys);
+ formInfo.menuIds = checkedKeys
 }
-const treeRef = ref();
+const treeRef = ref(null);
 const treeList = ref([]);
 const treeProps = {
   children: 'children',
@@ -97,7 +99,15 @@ const getRoleTree = async () => {
   if (result.code === 200) {
     treeList.value = result.data;
     if (props.id) {
-      checkNodes.value = checkMenuIds.value
+      nextTick(()=>{
+          checkMenuIds.value.forEach(item=>{
+            let node =  treeRef.value.getNode(item)
+            if(node.isLeaf){
+              treeRef.value.setChecked(node,true)
+            }
+          })
+      })
+    
     }
   }
 }

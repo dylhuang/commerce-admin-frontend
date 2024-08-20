@@ -6,14 +6,17 @@ function baseUrlApi(str) {
 export const getTypeList = (data) => {
     return post(baseUrlApi("/sys/merchandise/fetchPageableServiceTypeList"), data);
   };
-export const addMerchandise = (data) => {
-    return post(baseUrlApi("/sys/merchandise/addMerchandise"), data);
+export const addServiceType = (data) => {
+    return post(baseUrlApi("/sys/merchandise/addServiceType"), data);
 };
-export const editGoods = (data) => {
-    return post(baseUrlApi("/sys/merchandise/editMerchandise"), data);
+export const editType = (data) => {
+    return post(baseUrlApi("/sys/merchandise/editMerchandiseServiceType"), data);
 };
-export const detailGoods = (data) => {
-    return get(baseUri("/sys/merchandise/fetchMerchandise"), data);
+export const bindType = (data) => {
+    return post(baseUrlApi("/sys/merchandise/bindMerchandiseService"), data);
+};
+export const detailType = (data) => {
+    return get(baseUri("/sys/merchandise/fetchServiceType"), data);
 };
 export const deleteGoods = (data) => {
     return get(baseUri("/sys/merchandise/deleteMerchandise"), data);

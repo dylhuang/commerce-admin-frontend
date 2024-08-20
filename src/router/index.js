@@ -63,9 +63,18 @@ console.log('加载路由文件');
 export default router;
 
 router.beforeEach(async (to, from, next) => {
-    console.log('进入路由');
-    npStart();
-    next();
+    const token = localStorage.getItem('token')
+    if(!token){
+        if(to.path =='/login'){
+            next()
+        }else{
+           next('/login')
+        }
+    }else{
+        npStart();
+        next();
+    }
+   
 });
 
 router.afterEach(() => {

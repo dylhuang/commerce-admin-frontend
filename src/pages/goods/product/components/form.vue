@@ -40,7 +40,7 @@ const form = ref({
     merchandiseName: "",
     businessPrice: null,
     businessEnable:'',
-    customerEnable: "",
+    customerEnable: '',
     customerPrice: null,
 });
 const props = defineProps({

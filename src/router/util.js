@@ -52,18 +52,18 @@ const addAsyncRoutes = (routers, parent = 'layout') => {
 // 添加额外路由
 const addAdditionalRouter = () => {
  // 平台商品
-    //  if (routerPathList.includes('/goods/goods')) {
-    //     const routeRecordRaw = {
-    //         path: '/goods/edit',
-    //         name: 'product-edit',
-    //         component: modules['/src/pages/goods/goods/goodsEdit.vue'],
-    //         meta: {
-    //             title: '货品编辑',
-    //         },
-    //     };
-    //     router.addRoute('goods', routeRecordRaw);
-    //     routerPathList.push(routeRecordRaw.path);
-    // }
+     if (routerPathList.includes('/goods/product')) {
+        const routeRecordRaw = {
+            path: '/goods/product/detail',
+            name: 'product-detail',
+            component: modules['/src/pages/goods/product/detail.vue'],
+            meta: {
+                title: '商品详情',
+            },
+        };
+        router.addRoute('goods', routeRecordRaw);
+        routerPathList.push(routeRecordRaw.path);
+    }
 
 };
 
