@@ -5,7 +5,7 @@ function baseUrlApi(str) {
 }
 
 export const UPLOAD = {
-  URL: "/api/file/upload",
+  URL: "/api/sys/global/addImageToCloud",
   FILETYPE: {
     AUDIO: "audio",
     FILE: "file",
@@ -32,34 +32,8 @@ export const UPLOAD = {
   },
 };
 
-export const getSubSysList = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/subSystem/findAll"), data);
-};
-
-export const getDepartmentTree = () => {
-  return post(baseUrlApi("/admin/v6_0_0/department/findTree"));
-};
-
-export const cacheCodeList = (data) => {
-  return post(baseUrlApi("/admin/cache/findByType"), data);
-};
-
-export const findTree = (data) => {
-  return post(baseUrlApi("/admin/cityArea/findTree"), data);
-};
 
 
-export const findListRole = (data) => {
-  return post(baseUrlApi("/admin/v6_0_0/role/findListRole"), data);
-};
-
-export const getPublicKey = () => {
-  return post(baseUrlApi("/common/shop/publicKey"));
-};
-
-export const codeTypeValue = (data) => {
-  return post(baseUri("/admin/v6_0_0/codeTypeValue/findByType"), data);
-};
 
 
 

@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { UPLOAD } from '@/api/common';
-import {  getDepartmentTree, cacheCodeList } from '@/api/common';
 import { nextTick } from 'vue';
 export default defineStore('common', {
     state: () => {
@@ -48,7 +47,7 @@ export default defineStore('common', {
                             fieldName: 'file',
                             server: UPLOAD.URL,
                             headers: {
-                                token: localStorage.getItem('token'),
+                                Authorization: 'Bearer  ' + localStorage.getItem('token'),
                             },
                             meta: {
                                 fileType: UPLOAD.FILETYPE.IMAGE,
@@ -75,8 +74,7 @@ export default defineStore('common', {
     getters: {},
     actions: {
         getCommonResources() {
-            this.getSubSysListAction();
-            //this.getTradeTpesAction();
+           
         },
         setUserRouterList(data) {
             this.userRouterList = data;
@@ -110,46 +108,15 @@ export default defineStore('common', {
             this.tags = [{ name: '首页', routerUrl: '/index' }];
             this.cachePages = [];
         },
-        getSubSysListAction() {
-            return new Promise((resolve, reject) => {
-                getSubSysList()
-                    .then(res => {
-                        if (res.code === 200) {
-                            this.setSubSystemList(res.data || []);
-                            resolve(res);
-                        }
-                    })
-                    .catch(error => {
-                        reject(error);
-                    });
-            });
-        },
+        
         setSubSystemList(data) {
             this.subSystemList = data;
         },
-        getDepartmentTreeAction() {
-            return new Promise((resolve, reject) => {
-                getDepartmentTree()
-                    .then(res => {
-                        if (res.code === 200) {
-                            this.setDepartmentTree(res.data || []);
-                            resolve(res);
-                        }
-                    })
-                    .catch(error => {
-                        reject(error);
-                    });
-            });
-        },
+       
         setDepartmentTree(data) {
             this.departmentTree = data;
         },
-        async getTradeTpesAction() {
-            const result = await cacheCodeList({ value: 'TradeType' });
-            if (result.code === 200) {
-                this.setTradeTypes(result.data);
-            }
-        },
+        
         setTradeTypes(data) {
             this.tradeTypes = data;
         },

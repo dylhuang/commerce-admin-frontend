@@ -55,7 +55,7 @@ import {
 } from '@element-plus/icons-vue';
 import { useUserStoreHook } from "@/store/modules";
 import { useRouter } from 'vue-router';
-import { getPublicKey, rePassword } from '@/api/user.js';
+import {  rePassword } from '@/api/user.js';
 import { JSEncrypt } from 'jsencrypt';
 import { ElMessage } from "element-plus";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
@@ -91,7 +91,6 @@ const handleSubmit = async () => {
     ElMessage.warning("两次密码不一致");
     return
   }
-  // const res = await getPublicKey();
   const encryptor = new JSEncrypt();
   const { publicKey, sessionGenerateId } = res;
   localStorage.setItem("sessionGenerateId", sessionGenerateId);

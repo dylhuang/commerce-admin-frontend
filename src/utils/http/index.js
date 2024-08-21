@@ -45,7 +45,7 @@ request.interceptors.request.use(
 // response 拦截器
 request.interceptors.response.use(
     response => {
-        const whiteList = ['/api/common/shop/publicKey'];
+        const whiteList = [];
         const requestUrl = response.config.url;
         const arrown = whiteList.some(v => requestUrl.indexOf(v) > -1);
         const result = response.data;

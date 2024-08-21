@@ -8,10 +8,7 @@ export const getVerificationCode = () => {
   return get(baseUri("/sys/captcha/img")) ;
 };
 
-/** 获取publicKey */
-export const getPublicKey = () => {
-  return post(baseUrlApi("/common/shop/publicKey"));
-};
+
 
 /** 登录 */
 export const userLogin = (data) => {

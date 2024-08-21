@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-upload class="avatar-uploader" :class="square?'square':''" :action="UPLOAD.URL" :show-file-list="false"
-            :data="{ fileType: UPLOAD.FILETYPE.IMAGE, type: UPLOAD.TYPE.SELLER }" :headers="{ token }"
+            :data="{ fileType: UPLOAD.FILETYPE.IMAGE, type: UPLOAD.TYPE.SELLER }" :headers="{ Authorization }"
             :on-success="(res, file) => { handleAvatarSuccess(res, file) }" :before-upload="beforeAvatarUpload">
             <!-- <img v-if="props.imgUrl" :src="props.imgUrl" class="avatar"  /> -->
             <el-image v-if="props.imgUrl" style="width: 178px; height: 100px;" :src="props.imgUrl" fit="contain" />
@@ -25,7 +25,8 @@ const props = defineProps({
     square:Boolean
 })
 
-const token = localStorage.getItem("token");
+const Authorization = 'Bearer  ' + localStorage.getItem('token');
+
 const beforeAvatarUpload = () => {
 
 }
@@ -33,7 +34,7 @@ const emits = defineEmits(["uploadSuccess", "removeImg"])
 
 const handleAvatarSuccess = (response, uploadFile) => {
     if (response.code === 200) {
-        emits("uploadSuccess", response.data.filePath);
+        emits("uploadSuccess", response.data);
     }
 }
 const handleRemoveImage = () => {

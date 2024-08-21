@@ -47,7 +47,7 @@ const props = defineProps({
   id: null,
 });
 const form = ref({
-  noticeId: null,
+  imageId: null,
   name: "",
   description: "",
   imageUrl: "",
@@ -69,21 +69,23 @@ const handleRemoveImg = (target) => {
 };
 // 详情
 const getFormInfo = async (id) => {
-  const noticeId = id;
-  const result = await fetchImage({ noticeId });
+  const imageId = id;
+  const result = await fetchImage({ imageId });
   if (result.code === 200) {
     form.value = {
-      id: result.data.id,
+      imageId: result.data.id,
       name: result.data.name,
       description: result.data.description,
-      type: result.data.type,
-      content: result.data.content,
+      type: Number(result.data.type),
+      imageUrl: result.data.imageUrl,
     };
   }
 };
 const handleSub = async () => {
+  console.log(form.value.imageId);
+  
   let result;
-  if (form.value.noticeId) {
+  if (form.value.imageId) {
     result = await editImage(form.value);
   } else {
     result = await addImage(form.value);
@@ -97,9 +99,7 @@ const handleSub = async () => {
   }
 };
 const handleCancel = (formEl) => {
-  productDescHtml.value = "";
-  form.value.noticeId = null;
-  form.value.content = "";
+  form.value.imageId = null;
   if (!formEl) return;
   formEl.resetFields();
   emit("closeDialog");
@@ -107,7 +107,9 @@ const handleCancel = (formEl) => {
 
 const initInfo = () => {
   if (props.id) {
-    form.value.noticeId = props.id;
+    
+    form.value.imageId= props.id;
+    console.log(form.value.imageId);
     getFormInfo(props.id);
   }
 };

@@ -18,3 +18,6 @@ export const fetchImage = (data) => {
 export const deleteImage = (data) => {
     return get(baseUri("/sys/global/deleteImage"), data);
 };
+export const ableImage = (data) => {
+    return get(baseUri("/sys/global/ableImage"), data);
+};
