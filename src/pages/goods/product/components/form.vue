@@ -135,9 +135,9 @@ const handleSub = async (FormRef) => {
 };
 const handleCancel = (formEl) => {
     form.value.merchandiseId= null
-  if (!formEl) return
-  formEl.resetFields()
-  emit("closeDialog");
+    if (!formEl) return
+    formEl.resetFields()
+    emit("closeDialog");
 };
 
 const initInfo = () => {

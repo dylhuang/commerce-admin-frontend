@@ -40,7 +40,7 @@
             </el-col>
         </el-row>
     <el-row class="mt-2 btn">
-      <el-button @click="handleCancel">返回</el-button>
+      <el-button class="page-btn" @click="handleCancel">返回</el-button>
     </el-row>
 
     </el-card>
@@ -70,8 +70,6 @@ const handleCancel = () =>{
 }
 
 onMounted(()=>{
-    console.log(router);
-    
     productId.value = router.currentRoute.value.query.id;
     getDetail(productId.value)
 })
