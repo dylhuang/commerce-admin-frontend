@@ -3,40 +3,18 @@
         <el-row>
             <el-col :span="12">
                 <div class="flex">
-                    <div class="leftName">商品名称：</div>
-                    {{dataDetail.merchandiseName}}
+                    <div class="leftName">产品名称：</div>
+                    {{dataDetail.name}}
                 </div>
               </el-col>
             <el-col :span="12">
                <div class="flex">
-                <div class="leftName"> 商品编码：</div>{{dataDetail.merchandiseCode}}
+                <div class="leftName"> 产品编码：</div>{{dataDetail.code}}
                </div>
             </el-col>
         </el-row>
-        <el-row class="mt-2">
-            <el-col :span="12">
-                <div class="flex">
-                    <div class="leftName">日常单价:</div>{{dataDetail.businessPrice}}元
-                </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="flex">
-                    <div class="leftName">日常可销售:</div> {{dataDetail.businessEnable == 0 ? '否' : '是'}}
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="mt-2">
-            <el-col :span="12">
-               <div class="flex">
-                 <div class="leftName">会议单价：</div>{{dataDetail.customerPrice}} 元
-               </div>
-            </el-col>
-            <el-col :span="12">
-                <div class="flex">
-                    <div class="leftName">会议可销售：</div>{{dataDetail.customerEnable == 0 ? '否' : '是'}}
-                </div>
-            </el-col>
-        </el-row>
+        
+        
         <el-row class="mt-2">
             <el-col :span="12">
                <div class="flex">
@@ -52,7 +30,7 @@
         <el-row class="mt-2">
             <el-col :span="12">
                <div class="flex">
-                <div class="leftName">状态：</div>{{dataDetail.stuas == 10 ? '可销售' : '不可销售'}}
+                <div class="leftName">状态：</div>{{dataDetail.stuas == 10 ? '可用' : '不可用'}}
                </div>
             </el-col>
             <el-col :span="12">
@@ -70,15 +48,15 @@
 
 <script setup>
 import { ref,onMounted } from "vue";
-import { detailGoods } from "@/api/goods/product";
+import { fetchProduct } from "@/api/goods/goods";
 import { useRouter } from 'vue-router';
 const router = useRouter();
-const merchandiseId = ref(null)
+const productId = ref(null)
 const dataDetail = ref({})
 const goodsType = ref()
-const getDetail = async(merchandiseId) =>{
+const getDetail = async(productId) =>{
   
-  const res = await detailGoods({merchandiseId})
+  const res = await fetchProduct({productId})
   if(res.code == 200) {
     dataDetail.value = res.data
     goodsType.value =  res.data?.serviceTypeVOList.map(item=>item.serviceTypeName).join(',')
@@ -88,14 +66,14 @@ const getDetail = async(merchandiseId) =>{
 }
 
 const handleCancel = () =>{
-    router.push('/goods/product')
+    router.push('/goods/goods')
 }
 
 onMounted(()=>{
     console.log(router);
     
-    merchandiseId.value = router.currentRoute.value.query.id;
-    getDetail(merchandiseId.value)
+    productId.value = router.currentRoute.value.query.id;
+    getDetail(productId.value)
 })
 </script>
 

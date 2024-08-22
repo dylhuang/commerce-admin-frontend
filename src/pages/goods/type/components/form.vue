@@ -74,13 +74,14 @@ const handleSub = async (FormRef) => {
       message: "保存成功",
       type: "success",
     });
+    FormRef.resetFields()
     emit("refreshData");
   }
 };
-const handleCancel = (formEl) => {
+const handleCancel = (FormRef) => {
     form.value.serviceTypeId= null
-  if (!formEl) return
-  formEl.resetFields()
+  if (!FormRef) return
+  FormRef.resetFields()
   emit("closeDialog");
 };
 

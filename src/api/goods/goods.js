@@ -3,21 +3,22 @@ import { post,get,baseUri,put,undel } from "@/utils/http";
 function baseUrlApi(str) {
   return `/api${str}`;
 }
-export const getGoodsList = (data) => {
-    return post(baseUrlApi("/sys/merchandise/fetchMerchandiseList"), data);
+export const fetchProductList = (data) => {
+    return post(baseUrlApi("/sys/product/fetchProductList"), data);
   };
-export const addMerchandise = (data) => {
-    return post(baseUrlApi("/sys/merchandise/addMerchandise"), data);
+export const addProduct = (data) => {
+    return post(baseUrlApi("/sys/product/addProduct"), data);
 };
-export const editGoods = (data) => {
-    return post(baseUrlApi("/sys/merchandise/editMerchandise"), data);
+export const editProduct = (data) => {
+    return post(baseUrlApi("/sys/product/editProduct"), data);
 };
-export const detailGoods = (data) => {
-    return get(baseUri("/sys/merchandise/fetchMerchandise"), data);
+
+export const fetchProduct = (data) => {
+    return get(baseUri("/sys/product/fetchProduct"), data);
 };
-export const deleteGoods = (data) => {
-    return get(baseUri("/sys/merchandise/deleteMerchandise"), data);
+export const  deleteProduct = (data) => {
+    return get(baseUri("/sys/product/deleteProduct"), data);
 };
-export const ableMerchandise = (data) => {
-    return get(baseUri("/sys/merchandise/ableMerchandise"), data);
+export const ableProduct = (data) => {
+    return get(baseUri("/sys/product/ableProduct"), data);
 };

@@ -1,29 +1,38 @@
 <template>
-    <SearchForm @onSearch="handleSearch" @onReset="handleReset" />
+    <SearchForm @onSearch="handleSearch" @onReset="handleSearch" />
      <div class="bg-white p-2 rounded-sm">
        <div class="p-2 top-btn">
          <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0" @click="handleAdd">添加</el-button>
        </div>
-         <el-table :data="tableInfo.tableData" border style="width: 100%" @selection-change="handleSelectionChange">
+         <el-table :data="tableInfo.tableData" border style="width: 100%">
            <el-table-column type="selection" width="55" />
-           <el-table-column type="index" width="60" label="序号" align="center" />
-           <el-table-column label="服务类型名称" prop="serviceTypeName"> </el-table-column>
-           <el-table-column label="服务类型状态" prop="serviceTypeStatus">
-              <template #default="scope">
-                <el-tag type="success" v-if="scope.row.serviceTypeStatus == 10">可用</el-tag>
-                <el-tag type="danger" v-else>否</el-tag>
-             </template>
+           <el-table-column label="产品名称" prop="name"> </el-table-column>
+           <el-table-column label="产品编码" prop="code"> </el-table-column>
+           <el-table-column label="产品单价(元)" prop="price"> </el-table-column>
+           <!-- <el-table-column label="创建人" prop="createBy"> </el-table-column> -->
+           <el-table-column label="创建时间" prop="createTime" width='200px'> </el-table-column>
+           <!-- <el-table-column label="更新人" prop="updateBy" > </el-table-column> -->
+           <el-table-column label="更新时间" prop="updateTime" width='200px'> </el-table-column>
+           <el-table-column label="产品状态" width='200px'>
+            <template #default="scope" >
+              <el-switch
+                v-model="scope.row.status"
+                active-text="可用"
+                active-value="10"
+                inactive-text="不可用"
+                inactive-value="20"
+                @change="changeGoods(scope.row.id)"
+              />
+            </template>
            </el-table-column>
-           <el-table-column label="创建时间" prop="createTime"  ></el-table-column>
-           <el-table-column label="更新时间" prop="updateTime"  ></el-table-column>
-         
-           <el-table-column label="操作" align="center">
+           
+           <el-table-column label="操作" align="center" fixed="right" width="140px">
              <template #default="scope">
-               <!-- <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id,scope.row.merchandiseName)" :icon="Reading" />
-               </el-tooltip> -->
+               <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
+                 <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id)" :icon="Reading" />
+               </el-tooltip>
                <el-tooltip class="box-item" effect="dark" content="编辑" placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.serviceTypeName)" :icon="Edit" />
+                 <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.name)" :icon="Edit" />
                </el-tooltip>
                <el-tooltip class="box-item" effect="dark" content="删除"  placement="top-start">
                  <el-link class="ml-10px" :underline="false" type="danger" @click="handleDel(scope.row.id)" :icon="Delete" />
@@ -58,7 +67,7 @@
    
    <script setup  >
    import { ref, reactive,onMounted } from "vue";
-   import { getTypeList,deletefetch} from "@/api/goods/type";
+   import { fetchProductList,deleteProduct,ableProduct} from "@/api/goods/goods";
    import { CirclePlus, Top, Back, Delete, Edit,Reading } from "@element-plus/icons-vue";
    import MenuForm from "./components/form.vue";
    import SearchForm from "./components/search.vue";
@@ -67,20 +76,28 @@
    import { hasAuthBtn } from "@/utils/permission";
    import { confirmBox } from "@/utils/feedBack/confirm";
    import { ElMessage } from "element-plus";
-   
-   const multipleSelection = ref([]);
-   const handleSelectionChange = (val) => {
-     multipleSelection.value = val;
-   }
+   import router from "@/router";
+  
+    // 切换状态
+    const changeGoods = async(productId) =>{
+      const res = await ableProduct({productId})
+      if(res.code == 200 ){
+        ElMessage.success('修改成功')
+      }
+
+    }
+
+
   const detailVisible = ref(false)
   const detailTitle = ref('详情')
   const detailId = ref(null)
   const menuDetailRef= ref(null)
   // 详情
-  const handlelDetail = (id,name) =>{
-    detailVisible.value = true
-    detailId.value = id
-    dialogTitle.value = `${name}-编辑`;
+  const handlelDetail = (id) =>{
+    router.push('/goods/goods/detail?id='+ id)
+    // detailVisible.value = true
+    // detailId.value = id
+    // dialogTitle.value = `${name}-编辑`;
   }
   
   const handleInitDetail = () =>{
@@ -89,15 +106,14 @@
   
   
    const handleSearch = (val) => {
-     pageParam.merchandiseName = val.keyword;
+    console.log(val);
+     pageParam.name = val.name;
+     pageParam.code = val.code;
+     pageParam.status = val.status;
      pageParam.pageNum = 1;
      getTableList();
    };
-   const handleReset = (val) => {
-     pageParam.merchandiseName = val.keyword;
-     pageParam.pageNum = 1;
-     getTableList();
-   };
+
    onMounted(()=>{
      getTableList()
    })
@@ -120,7 +136,7 @@
      total: 0
    });
    const getTableList = async () => {
-     const result = await getTypeList(pageParam);
+     const result = await fetchProductList(pageParam);
      if (result.code === 200) {
        tableInfo.tableData = result.data.list || [];
        tableInfo.total = result.data.total;
@@ -150,10 +166,10 @@
      dialogTitle.value = `${name}-编辑`;
      formVisible.value = true;
    };
-   const handleDel = async (serviceTypeId) => {
+   const handleDel = async (productId) => {
      const canDel = await confirmBox("是否确认删除数据");
      if (!canDel) return;
-     const result = await deletefetch({serviceTypeId});
+     const result = await deleteProduct({productId});
      if (result.code === 200) {
        ElMessage.success("操作成功");
        handleRefreshData();

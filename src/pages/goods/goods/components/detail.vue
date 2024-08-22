@@ -55,31 +55,29 @@
                 <div class="leftName">状态：</div>{{dataDetail.stuas == 10 ? '可销售' : '不可销售'}}
                </div>
             </el-col>
-            <el-col :span="12">
-               <div class="flex">
-                <div class="leftName">绑定服务类型：</div>{{goodsType}}
-               </div>
-            </el-col>
+           
         </el-row>
     </div>
 </template>
 
 <script setup>
 import { ref,onMounted } from "vue";
-import { detailGoods } from "@/api/goods/product";
+import { detailType } from "@/api/goods/type";
 const props = defineProps({
     id: null
 });
 const dataDetail = ref({})
 const goodsType = ref()
 const getDetail = async() =>{
-  let merchandiseId = props.id
+  let serviceTypeId = props.id
   
-  const res = await detailGoods({merchandiseId})
+  const res = await detailType({serviceTypeId})
   if(res.code == 200) {
     dataDetail.value = res.data
-    goodsType.value =  res.data.serviceTypeVOList.map(item=>item.serviceTypeName).join(',')
-    console.log(goodsType.value);
+    goodsType.value =  res.data.serviceTypeVOList.map(item=>{
+        item.name
+    })
+    console.log(  goodsType.value );
     
   }
 }

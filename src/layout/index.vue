@@ -5,7 +5,7 @@
       <div class="layout-header flex flex-wrap">
         <Navbar />
       </div>
-      <TagsView />
+      <!-- <TagsView /> -->
       <AppMain class="main-content" />
     </div>
   </div>

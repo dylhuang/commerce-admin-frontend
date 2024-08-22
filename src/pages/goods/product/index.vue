@@ -1,7 +1,7 @@
 <template>
   <SearchForm @onSearch="handleSearch" @onReset="handleReset" />
    <div class="bg-white p-2 rounded-sm">
-     <div class="p-2">
+     <div class="p-2 top-btn">
        <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0" @click="handleAdd">添加</el-button>
      </div>
        <el-table :data="tableInfo.tableData" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -33,11 +33,11 @@
              <el-tag type="danger" v-else>否</el-tag>
            </template>
          </el-table-column>
-         <el-table-column label="操作" align="center">
+         <el-table-column label="操作" align="center" fixed="right" width="140px">
            <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" content="绑定服务类型"  placement="top-start">
+            <!-- <el-tooltip class="box-item" effect="dark" content="绑定服务类型"  placement="top-start">
                <el-link class="ml-10px" :underline="false" type="warning" @click="handleType(scope.row.id)" :icon="CirclePlus" />
-             </el-tooltip>
+             </el-tooltip> -->
              <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
                <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id,scope.row.merchandiseName)" :icon="Reading" />
              </el-tooltip>
@@ -58,7 +58,7 @@
      :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNum" />
  
    <!-- form dialog -->
-   <el-dialog v-model="formVisible" :title="dialogTitle" width="50%" @opened="handleInitForm">
+   <el-dialog v-model="formVisible" :close-on-click-modal="false" :title="dialogTitle" width="50%" @opened="handleInitForm">
      <MenuForm ref="menuFormRef" :id="editId"  @closeDialog="formVisible = false" @refreshData="handleRefreshData" />
    </el-dialog>
    <!-- 详情 -->
@@ -82,7 +82,7 @@
  
  <script setup  >
  import { ref, reactive,onMounted } from "vue";
- import { getGoodsList,deleteGoods,ableMerchandise} from "@/api/goods/goods";
+ import { getGoodsList,deleteGoods,ableMerchandise} from "@/api/goods/product";
  import { CirclePlus, Top, Back, Delete, Edit,Reading} from "@element-plus/icons-vue";
  import MenuForm from "./components/form.vue";
  import SearchForm from "./components/search.vue";
@@ -119,12 +119,13 @@ const detailId = ref(null)
 const menuDetailRef= ref(null)
 
 // 详情
-const handlelDetail = (id,name) =>{
+const handlelDetail = (id) =>{
+  console.log(router);
   
-  // router.push('/goods/product/detail?id='+ id)
-  detailVisible.value = true
-  detailId.value = id
-  dialogTitle.value = `${name}-编辑`;
+  router.push('/goods/product/detail?id='+ id)
+  // detailVisible.value = true
+  // detailId.value = id
+  // dialogTitle.value = `${name}-编辑`;
 }
 
 const handleInitDetail = () =>{

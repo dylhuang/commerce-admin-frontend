@@ -64,6 +64,18 @@ const addAdditionalRouter = () => {
         router.addRoute('goods', routeRecordRaw);
         routerPathList.push(routeRecordRaw.path);
     }
+    if (routerPathList.includes('/goods/goods')) {
+        const routeRecordRaw = {
+            path: '/goods/goods/detail',
+            name: 'goods-detail',
+            component: modules['/src/pages/goods/goods/detail.vue'],
+            meta: {
+                title: '产品详情',
+            },
+        };
+        router.addRoute('goods', routeRecordRaw);
+        routerPathList.push(routeRecordRaw.path);
+    }
 
 };
 

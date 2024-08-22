@@ -3,6 +3,12 @@
     <el-form-item label="商品名称" prop="merchandiseName">
       <el-input v-model="form.merchandiseName" clearable placeholder="请输入商品名称"/>
     </el-form-item>
+     <el-form-item label="绑定产品" prop="productId">
+        <el-select v-model="form.relationList.productId" multiple placeholder="(可多选)" >
+          <el-option :label="item.name" :value="item.id" v-for="item in productList" :key="item.id"
+          />
+        </el-select>
+      </el-form-item>
     <el-form-item label="日常单价" prop="businessPrice">
       <el-input v-model="form.businessPrice" clearable  placeholder="请输入日常单价"/>
     </el-form-item>
@@ -30,7 +36,8 @@
 
 <script setup>
 import { onMounted, reactive, ref, shallowRef } from "vue";
-import { addMerchandise, editGoods, detailGoods } from "@/api/goods/goods";
+import { addMerchandise, editGoods, detailGoods } from "@/api/goods/product";
+import { fetchProductList } from "@/api/goods/goods";
 import { ElMessage } from "element-plus";
 import IconSelect from "@/components/IconSelect/index.vue";
 const emit = defineEmits(["closeDialog", "refreshData"]);
@@ -42,6 +49,10 @@ const form = ref({
     businessEnable:'',
     customerEnable: '',
     customerPrice: null,
+    relationList:[{
+      productId:null,
+      productNumber:'',
+    }]
 });
 const props = defineProps({
   id: null
@@ -50,7 +61,7 @@ const isPrice = (rule, value, callback) => {
     if (value <= 0) {
         callback(new Error('输入的数值必须大于0'));
       } else if (!/^\d+(\.\d{1,2})?$/.test(value)) {
-        callback(new Error('输入的数值最多有两位小数'));
+        callback(new Error('只能输入数字有且只有两位小数'));
       } else {
         callback();
       }
@@ -74,6 +85,18 @@ const rules = reactive({
     {required:true,message:'请选择是否日常可销售',}
   ]
 })
+
+// 获取产品列表
+const productList = ref([])
+const getProductList =async () =>{
+  const res = await fetchProductList()
+  if(res.code == 200){
+    productList.value = res.data.list 
+  }
+}
+
+
+
 // 详情
 const getFormInfo = async (merchandiseId ) => {
   const result = await detailGoods({ merchandiseId });
@@ -123,8 +146,14 @@ const initInfo = () => {
       form.value.merchandiseId = props.id;
       getFormInfo(props.id);
     }
+    getProductList()
 }
 defineExpose({
   initInfo,
 });
 </script>
+<style scoped lang="scss">
+.el-select{
+  width: 100%;
+}
+</style>

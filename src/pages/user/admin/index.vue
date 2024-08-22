@@ -1,7 +1,7 @@
 <template>
   <SearchForm @onSearch="handleSearch" />
   <div class="bg-white p-2 rounded-sm">
-    <div class="p-2">
+    <div class="p-2 top-btn">
       <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0"
         @click="handleAdd">添加
       </el-button>
@@ -28,7 +28,7 @@
         <template #default="scope">
           <el-tooltip  class="box-item" effect="dark" content="编辑"
             placement="top-start">
-            <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.nickName)"
+            <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.userName)"
               :icon="Edit" />
           </el-tooltip>
           <el-tooltip  class="box-item" effect="dark" content="设置密码"
