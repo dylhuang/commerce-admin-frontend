@@ -33,21 +33,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-//.sidebarLogoFade-enter-active {
-//  transition: opacity 1.5s;
-//}
-//
-//.sidebarLogoFade-enter,
-//.sidebarLogoFade-leave-to {
-//  opacity: 0;
-//}
+
 .sidebar-logo-container {
-  width: 100%;
+  width: 200px;
   height: 50px;
   line-height: 50px;
 
   .sidebar-logo-link {
-    width: 100%;
+    width: 200px;
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -61,7 +54,6 @@ export default defineComponent({
   }
 
   .sidebar-title {
-    color: #fff;
     font-size: 16px;
     font-weight: 600;
     padding-left: 10px;

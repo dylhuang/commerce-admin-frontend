@@ -1,42 +1,38 @@
 <template>
-    <SearchForm @onSearch="handleSearch" @onReset="handleReset" />
-     <div class="bg-white p-2 rounded-sm">
-       <div class="p-2 top-btn">
+     <div class="bg-white page-width">
+      <div class="f-16 color-65">服务类型列表</div>
+       <SearchForm  @onSearch="handleSearch" @onReset="handleReset" />
+       <div class="top-btn">
          <el-button   :icon="CirclePlus" class="!ml-0 search-btn" @click="handleAdd">添加</el-button>
        </div>
          <el-table :data="tableInfo.tableData" border style="width: 100%" @selection-change="handleSelectionChange">
            <el-table-column type="selection" width="55" />
            <el-table-column type="index" width="60" label="序号" align="center" />
-           <el-table-column label="服务类型名称" prop="serviceTypeName"> </el-table-column>
-           <el-table-column label="服务类型状态" prop="serviceTypeStatus">
+           <el-table-column label="服务类型名称" align="center" prop="serviceTypeName"> </el-table-column>
+           <el-table-column label="服务类型状态" align="center" prop="serviceTypeStatus">
               <template #default="scope">
                 <el-tag type="success" v-if="scope.row.serviceTypeStatus == 10">可用</el-tag>
                 <el-tag type="danger" v-else>否</el-tag>
              </template>
            </el-table-column>
-           <el-table-column label="创建时间" prop="createTime"  ></el-table-column>
-           <el-table-column label="更新时间" prop="updateTime"  ></el-table-column>
+           <el-table-column label="创建时间" align="center" prop="createTime"  ></el-table-column>
+           <el-table-column label="更新时间" align="center" prop="updateTime"  ></el-table-column>
          
-           <el-table-column label="操作" align="center">
-             <template #default="scope">
-               <!-- <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id,scope.row.merchandiseName)" :icon="Reading" />
-               </el-tooltip> -->
-               <el-tooltip class="box-item" effect="dark" content="编辑" placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.serviceTypeName)" :icon="Edit" />
-               </el-tooltip>
-               <el-tooltip class="box-item" effect="dark" content="删除"  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="danger" @click="handleDel(scope.row.id)" :icon="Delete" />
-               </el-tooltip>
-               
-             </template>
+           <el-table-column label="操作" align="center" width="120" fixed="right">
+             
+              <template #default="scope">
+                <div class="table-actve">
+                  <div class="color-65" @click="handleEdit(scope.row.id, scope.row.serviceTypeName)">编辑</div>
+                  <div class="color-65 ml-1" @click="handleDel(scope.row.id)">删除</div>
+                </div>
+            </template>
            </el-table-column>
          </el-table>
+              <!-- 分页 -->
+      <Pagination :total="tableInfo.total" @sizeChange="handleSizeChange" @currentChange="handelCurrentChange"
+        :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNum" />
        </div>
-     <!-- 分页 -->
-   
-     <Pagination :total="tableInfo.total" @sizeChange="handleSizeChange" @currentChange="handelCurrentChange"
-       :pageSize="pageParam.pageSize" :pageNumber="pageParam.pageNum" />
+
    
      <!-- form dialog -->
      <el-dialog v-model="formVisible" :close-on-click-modal="false" :title="dialogTitle" width="50%" @opened="handleInitForm">
@@ -89,12 +85,15 @@
   
   
    const handleSearch = (val) => {
-     pageParam.merchandiseName = val.keyword;
+     pageParam.serviceTypeName = val.keyword;
+     pageParam.serviceTypeStatus = val.serviceTypeStatus;
+
      pageParam.pageNum = 1;
      getTableList();
    };
    const handleReset = (val) => {
-     pageParam.merchandiseName = val.keyword;
+     pageParam.serviceTypeName = val.keyword;
+     pageParam.serviceTypeStatus = val.serviceTypeStatus;
      pageParam.pageNum = 1;
      getTableList();
    };
@@ -102,7 +101,8 @@
      getTableList()
    })
    const pageParam = reactive({
-    merchandiseName:'',
+    serviceTypeName:'',
+    serviceTypeStatus:'',
      pageNum:1,
      pageSize:10
    });

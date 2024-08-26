@@ -6,20 +6,18 @@
        </div>
          <el-table :data="tableInfo.tableData" border style="width: 100%">
            <!-- <el-table-column type="selection" width="55" /> -->
-           <el-table-column label="产品名称" prop="name"> </el-table-column>
-           <el-table-column label="产品编码" prop="code"> </el-table-column>
-           <el-table-column label="产品单价(元)" prop="price"> </el-table-column>
+           <el-table-column label="产品名称" align="center"  prop="name"> </el-table-column>
+           <el-table-column label="产品编码" align="center"  prop="code"> </el-table-column>
+           <el-table-column label="产品单价(元)" align="center" prop="price"> </el-table-column>
            <!-- <el-table-column label="创建人" prop="createBy"> </el-table-column> -->
-           <el-table-column label="创建时间" prop="createTime" width='200px'> </el-table-column>
+           <el-table-column label="创建时间" align="center" prop="createTime" width='200px'> </el-table-column>
            <!-- <el-table-column label="更新人" prop="updateBy" > </el-table-column> -->
-           <el-table-column label="更新时间" prop="updateTime" width='200px'> </el-table-column>
-           <el-table-column label="产品状态" width='200px'>
+           <el-table-column label="更新时间" align="center" prop="updateTime" width='200px'> </el-table-column>
+           <el-table-column label="产品状态" width='200px' align="center">
             <template #default="scope" >
               <el-switch
                 v-model="scope.row.status"
-                active-text="可用"
                 active-value="10"
-                inactive-text="不可用"
                 inactive-value="20"
                 @change="changeGoods(scope.row.id)"
               />
@@ -28,17 +26,12 @@
            
            <el-table-column label="操作" align="center" fixed="right" width="140px">
              <template #default="scope">
-               <el-tooltip class="box-item" effect="dark" content="详情"  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="success" @click="handlelDetail(scope.row.id)" :icon="Reading" />
-               </el-tooltip>
-               <el-tooltip class="box-item" effect="dark" content="编辑" placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.name)" :icon="Edit" />
-               </el-tooltip>
-               <el-tooltip class="box-item" effect="dark" content="删除"  placement="top-start">
-                 <el-link class="ml-10px" :underline="false" type="danger" @click="handleDel(scope.row.id)" :icon="Delete" />
-               </el-tooltip>
-               
-             </template>
+                <div class="table-actve">
+                  <div class="color-65" @click="handlelDetail(scope.row.id)" >详情</div>
+                  <div class="color-65" @click="handleEdit(scope.row.id, scope.row.name)" >编辑</div>
+                  <div class="color-65 ml-1" @click="handleDel(scope.row.id)" >删除</div>
+                </div>
+            </template>
            </el-table-column>
          </el-table>
        </div>

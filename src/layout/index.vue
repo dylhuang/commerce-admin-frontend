@@ -1,46 +1,53 @@
- <template>
-   <div class="layout-header">
-        <sidebar-logo />
-        <Navbar />
-      </div>
+<template>
+  <div class="layop-page">
+    <div class="layout-header">
+    <sidebar-logo />
+    <Navbar />
+  </div>
   <div class="classic-container" :class="objClass">
-    <Slidebar class="sidebar-container"/>
+    <Slidebar class="sidebar-container" />
     <div class="main-container">
       <AppMain class="main-content" />
     </div>
   </div>
+  </div>
 </template>
 
 <script setup>
-import {computed} from "vue";
+import { computed } from "vue";
 import Slidebar from "./components/slidebar.vue";
 import AppMain from "./components/appMain.vue";
 import Navbar from "./components/navbar.vue";
 import SidebarLogo from "./components/SidebarLogo/index.vue";
 import Tags from "./components/tags.vue";
-import {useCommonStoreHook} from "@/store/modules.js";
+import { useCommonStoreHook } from "@/store/modules.js";
 import TagsView from "@/layout/components/TagsView/index.vue";
 
 const useCommonStore = useCommonStoreHook();
 const objClass = computed(() => ({
-  hideSidebar: useCommonStore.sliderCollapse
-}))
-
+  hideSidebar: useCommonStore.sliderCollapse,
+}));
 </script>
 
 <style lang="scss" scoped>
-.classic-container{
-  display: flex;
-  width: 100%;
-  height: 100vh;
-  overflow-y: hidden;
-}
-
-.layout-header{
+// .layop-page{
+//   height: 100vh;
+// }
+.layout-header {
   width: 100%;
   height: 50px;
+  display: flex;
 }
-.main-content{
+.classic-container {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 50px);
+  overflow-y: hidden;
+  background: #f5f5f5;
+}
+
+
+.main-content {
   display: flex;
   width: calc(100% - 1rem);
   flex: 1;

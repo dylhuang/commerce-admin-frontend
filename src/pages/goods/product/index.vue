@@ -57,53 +57,16 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" fixed="right" width="140px">
-        <template #default="scope">
-          <!-- <el-tooltip class="box-item" effect="dark" content="绑定服务类型"  placement="top-start">
-               <el-link class="ml-10px" :underline="false" type="warning" @click="handleType(scope.row.id)" :icon="CirclePlus" />
-             </el-tooltip> -->
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="详情"
-            placement="top-start"
-          >
-            <el-link
-              class="ml-10px"
-              :underline="false"
-              type="success"
-              @click="handlelDetail(scope.row.id, scope.row.merchandiseName)"
-              :icon="Reading"
-            />
-          </el-tooltip>
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="编辑"
-            placement="top-start"
-          >
-            <el-link
-              class="ml-10px"
-              :underline="false"
-              type="primary"
-              @click="handleEdit(scope.row.id)"
-              :icon="Edit"
-            />
-          </el-tooltip>
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="删除"
-            placement="top-start"
-          >
-            <el-link
-              class="ml-10px"
-              :underline="false"
-              type="danger"
-              @click="handleDel(scope.row.id)"
-              :icon="Delete"
-            />
-          </el-tooltip>
-        </template>
+          <template #default="scope">
+                <div class="table-actve">
+                  <div class="color-65"   @click="handlelDetail(scope.row.id, scope.row.merchandiseName)">详情</div>
+                  <div class="color-65"  @click="handleEdit(scope.row.id)">编辑</div>
+                  <div class="color-65 ml-1" @click="handleDel(scope.row.id)">删除</div>
+                </div>
+            </template>
+
+
+
       </el-table-column>
     </el-table>
   </div>

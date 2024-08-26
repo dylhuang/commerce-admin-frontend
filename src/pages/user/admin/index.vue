@@ -24,23 +24,15 @@
           <section v-if="scope.row.createTime">{{ scope.row.createTime }}</section>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="120" align="center">
+      <el-table-column label="操作" width="150" fixed="right" align="center">
         <template #default="scope">
-          <el-tooltip  class="box-item" effect="dark" content="编辑"
-            placement="top-start">
-            <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.userName)"
-              :icon="Edit" />
-          </el-tooltip>
-          <el-tooltip  class="box-item" effect="dark" content="设置密码"
-            placement="top-start">
-            <el-link class="ml-10px" :underline="false" type="primary" :icon="Setting"
-              @click="handleRePassword(scope.row.id, scope.row.nickName)" />
-          </el-tooltip>
-          <el-tooltip  class="box-item" effect="dark" content="删除"
-            placement="top-start">
-            <el-link class="ml-10px" :underline="false" type="danger" :icon="Delete"
-              @click="handleBatchDel(scope.row.id)" />
-          </el-tooltip>
+          <div class="table-actve">
+            <div class="color-65"   @click="handleEdit(scope.row.id, scope.row.userName)">编辑</div>
+            <div class="color-65"    @click="handleRePassword(scope.row.id, scope.row.nickName)" >设置密码</div>
+            <div class="color-65 ml-1"  @click="handleBatchDel(scope.row.id)">删除</div>
+          </div>
+
+
         </template>
       </el-table-column>
     </el-table>

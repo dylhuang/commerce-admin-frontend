@@ -14,18 +14,12 @@
         <el-table-column prop="roleName" label="角色名称" align="center" />
         <el-table-column prop="roleCode" label="角色编码" />
         <el-table-column prop="createTime" label="创建时间" />
-        <el-table-column label="操作" width="80" align="center">
+        <el-table-column label="操作" width="120" align="center" fixed="right" style="background-color:#F4F6F8;">
           <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" content="编辑"
-              placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.roleName)"
-                :icon="Edit" />
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="删除"
-              placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="danger" @click="handleBatchDel(scope.row.id)"
-                :icon="Delete" />
-            </el-tooltip>
+              <div class="table-actve">
+                <div class="color-65"  @click="handleEdit(scope.row.id, scope.row.roleName)">编辑</div>
+                <div class="color-65 ml-1" @click="handleBatchDel(scope.row.id)">删除</div>
+              </div>
           </template>
         </el-table-column>
       </el-table>

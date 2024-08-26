@@ -49,7 +49,7 @@
       </el-table>
     </div>
     <div class="btn-bottom">
-      <el-button type="primary" class="page-btn" @click="handleSub(FormRef)"
+      <el-button  class="page-btn bg-65" @click="handleSub(FormRef)"
         >保存</el-button
       >
       <el-button class="page-btn" @click="handleCancel(FormRef)"

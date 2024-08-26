@@ -33,19 +33,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="创建时间" />
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" width="120" fixed="right" align="center">
           <template #default="scope">
-            <el-tooltip class="box-item" effect="dark" content="编辑"
-              placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="primary" @click="handleEdit(scope.row.id, scope.row.menuName)"
-                :icon="Edit" />
-            </el-tooltip>
-            <el-tooltip class="box-item" effect="dark" content="删除"
-              placement="top-start">
-              <el-link class="ml-10px" :underline="false" type="danger" @click="handleBatchDel(scope.row.id)"
-                :icon="Delete" />
-            </el-tooltip>
-          </template>
+            <div class="table-actve">
+                <div class="color-65"  @click="handleEdit(scope.row.id, scope.row.menuName)">编辑</div>
+                <div class="color-65 ml-1"  @click="handleBatchDel(scope.row.id)">删除</div>
+              </div>
+          </template> 
         </el-table-column>
       </el-table>
     </div>

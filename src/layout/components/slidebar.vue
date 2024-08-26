@@ -45,6 +45,7 @@ onMounted(()=>{
 <style lang="scss" scoped>
 .el-scrollbar {
   height: calc(100% - 50px);
+
 }
 
 
