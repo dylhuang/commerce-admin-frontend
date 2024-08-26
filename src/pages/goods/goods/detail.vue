@@ -1,6 +1,12 @@
 <template>
-    <el-card class="box-card">
-        <el-row>
+    <el-card>
+        <template #header>
+            <div class="card-header">
+                <span>商品详情</span>
+            </div>
+        </template>
+      <div class="box-card">
+          <el-row>
             <el-col :span="12">
                 <div class="flex">
                     <div class="leftName">产品名称：</div>
@@ -39,6 +45,7 @@
                </div>
             </el-col>
         </el-row>
+      </div>
     <el-row class="mt-2 btn">
       <el-button class="page-btn" @click="handleCancel">返回</el-button>
     </el-row>
@@ -76,6 +83,10 @@ onMounted(()=>{
 </script>
 
 <style lang="scss" scoped>
+    .box-card {
+        padding-left: 60px !important;
+        margin-top: 20px;
+    }
     .leftName{
         width: 100px;
         // text-align: right;

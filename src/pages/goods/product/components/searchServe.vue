@@ -1,9 +1,10 @@
 <template>
-    <div class="bg-white p-2 mb-1">
-        <el-form class="mt-3" ref="searchFormRef" :model="searchForm" :inline="true" >
-                <el-form-item label="服务类型名称:" prop="keyword">
-                    <el-input v-model.trim="searchForm.keyword" placeholder="请输入角色名称" />
+    <div class="bg-white p-2 ">
+        <el-form class="mt-2" ref="searchFormRef" :model="searchForm" :inline="true" >
+                <el-form-item label="产品名称:" prop="name">
+                    <el-input v-model.trim="searchForm.name" placeholder="请输入产品名称" />
                 </el-form-item>
+            
                 <el-form-item class="float-right">
                     <el-button type="primary" @click="handleSub" :icon="Search">搜索</el-button>
                     <el-button @click="handleReset(searchFormRef)" :icon="Refresh">重置</el-button>
@@ -17,8 +18,20 @@
 import { ref,reactive } from 'vue';
 import { Search,Refresh,CaretBottom,CaretTop} from '@element-plus/icons-vue'
 const searchForm = reactive({
-    keyword:''
+    name:'',
+    code:'',
+    status:null,
 });
+const options = [
+    {
+        value: '10',
+        label: '可用',
+    },
+    {
+        value: '20',
+        label: '不可用',
+    },
+]
 const searchFormRef = ref(null);
 const emits = defineEmits(["onSearch","onReset"]);
 const handleSub = () => {

@@ -183,7 +183,6 @@ import { hasAuthBtn } from "@/utils/permission";
 import { confirmBox } from "@/utils/feedBack/confirm";
 import { ElMessage } from "element-plus";
 import { useRouter } from "vue-router";
-
 const router = useRouter()
 
 const multipleSelection = ref([]);
@@ -285,7 +284,6 @@ const handleAdd = () => {
   router.push("/goods/product/edit");
 };
 const handleEdit = (id) => {
-  console.log(id);
   router.push({
     path: "/goods/product/edit",
     query: { id: id },

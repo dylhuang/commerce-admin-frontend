@@ -5,7 +5,7 @@
          <el-button  plain type="primary" :icon="CirclePlus" class="!ml-0" @click="handleAdd">添加</el-button>
        </div>
          <el-table :data="tableInfo.tableData" border style="width: 100%">
-           <el-table-column type="selection" width="55" />
+           <!-- <el-table-column type="selection" width="55" /> -->
            <el-table-column label="产品名称" prop="name"> </el-table-column>
            <el-table-column label="产品编码" prop="code"> </el-table-column>
            <el-table-column label="产品单价(元)" prop="price"> </el-table-column>
@@ -76,7 +76,8 @@
    import { hasAuthBtn } from "@/utils/permission";
    import { confirmBox } from "@/utils/feedBack/confirm";
    import { ElMessage } from "element-plus";
-   import router from "@/router";
+   import { useRouter } from "vue-router";
+   const router = useRouter()
   
     // 切换状态
     const changeGoods = async(productId) =>{
@@ -94,7 +95,7 @@
   const menuDetailRef= ref(null)
   // 详情
   const handlelDetail = (id) =>{
-    router.push('/goods/goods/detail?id='+ id)
+    router.push('/goods/goods/?id='+ id)
     // detailVisible.value = true
     // detailId.value = id
     // dialogTitle.value = `${name}-编辑`;
@@ -104,12 +105,13 @@
     menuDetailRef.value.getDetail()
   }
   
-  
+  const pageParam = reactive({
+    merchandiseName:'',
+     pageNum:1,
+     pageSize:10
+   });
    const handleSearch = (val) => {
-    console.log(val);
      pageParam.name = val.name;
-     pageParam.code = val.code;
-     pageParam.status = val.status;
      pageParam.pageNum = 1;
      getTableList();
    };
@@ -117,11 +119,7 @@
    onMounted(()=>{
      getTableList()
    })
-   const pageParam = reactive({
-    merchandiseName:'',
-     pageNum:1,
-     pageSize:10
-   });
+ 
    // 弹框
    const menuFormRef = ref(null);
    const formVisible = ref(false);
@@ -157,14 +155,16 @@
    }
    
    const handleAdd = () => {
-     editId.value = '',
-     dialogTitle.value = "新增商品";
-     formVisible.value = true;
+    router.push('/goods/goods/edit')
+    //  editId.value = '',
+    //  dialogTitle.value = "新增商品";
+    //  formVisible.value = true;
    }
    const handleEdit = (id, name) => {
-     editId.value = id;
-     dialogTitle.value = `${name}-编辑`;
-     formVisible.value = true;
+      router.push({
+        path: "/goods/goods/edit",
+        query: { id: id },
+      });
    };
    const handleDel = async (productId) => {
      const canDel = await confirmBox("是否确认删除数据");

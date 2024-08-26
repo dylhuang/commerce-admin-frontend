@@ -26,3 +26,18 @@
 .w-e-text-container{
   height: 400px !important;
 }
+.title-box{
+  display: flex;
+  align-items: center;
+  .left-border{
+    width: 3px;
+    height: 20px;
+    background-color: #555556;
+  }
+  .detail-title{
+    font-size: 16px;
+    color: #606266;
+    font-weight: 550;
+    margin-left: 5px;
+  }
+}
