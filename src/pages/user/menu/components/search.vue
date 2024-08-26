@@ -6,13 +6,15 @@
                 <el-input class="!w-xs ml-1" :clearable="true" v-model.trim="menuName" placeholder="请输入关键字" />
             </el-col>
             <el-col :span="2" class="flex justify-end">
-                <el-button type="primary" @click="handleSub">确定</el-button>
+                <el-button   class="search-btn" @click="handleSub" :icon="Search">确定</el-button>
             </el-col>
         </el-row>
     </div>
 </template>
 
 <script setup>
+import { Search,Refresh,CaretBottom,CaretTop} from '@element-plus/icons-vue'
+
 import { ref,defineEmits } from 'vue';
 const menuName = ref("");
 const emits = defineEmits(["onSearch"]);

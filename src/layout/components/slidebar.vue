@@ -1,6 +1,6 @@
 <template>
   <div class="sidebar-container">
-    <sidebar-logo />
+    
     <el-scrollbar class="vertical-menus-scrollbar">
       <el-menu
           active-text-color="#409eff"
@@ -24,7 +24,7 @@ import { useRoute } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useUserStoreHook, useCommonStoreHook } from "@/store/modules";
 import MenuItem from "./menu/menuItem.vue";
-import SidebarLogo from "@/layout/components/SidebarLogo/index.vue";
+
 const { menuList } = storeToRefs(useUserStoreHook());
 const { sliderCollapse } = storeToRefs(useCommonStoreHook());
 const route = useRoute();
@@ -46,9 +46,11 @@ onMounted(()=>{
 .el-scrollbar {
   height: calc(100% - 50px);
 }
-.el-submenu :deep.el-submenu__title:hover {
+
+
+.el-sub-menu:hover {
   color: #2E95FB !important;
-  background: linear-gradient(270deg, #F2F7FC 0%, #FEFEFE 100%)!important;
+  background-color: rgba(156,219,217,0.1);
 }
 //.sidebar-container {
 //  transition: width 0.3s;

@@ -3,13 +3,10 @@
   <div class="bg-white p-2 rounded-sm">
     <div class="p-2 top-btn">
       <el-button
-        plain
-        type="primary"
         :icon="CirclePlus"
-        class="!ml-0"
+        class="!ml-0 search-btn"
         @click="handleAdd"
-        >添加</el-button
-      >
+        >添加</el-button>
     </div>
     <el-table
       :data="tableInfo.tableData"

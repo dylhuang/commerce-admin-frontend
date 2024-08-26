@@ -19,6 +19,7 @@
 .el-button {
   height: 30px ;
   padding: 8px 12px !important;
+  border-radius: 0 !important;
 }
 .el-button [class*=el-icon]+span {
   margin-left: 3px !important;
@@ -26,6 +27,13 @@
 .w-e-text-container{
   height: 400px !important;
 }
+.search-btn{
+  background: #003865 !important;
+  border: 1px solid #003865 !important;
+  color: #fff !important;
+ 
+}
+
 .title-box{
   display: flex;
   align-items: center;

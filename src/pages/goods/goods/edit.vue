@@ -134,10 +134,10 @@ const getFormInfo = async (productId) => {
   const result = await fetchProduct({ productId });
   if (result.code === 200) {
     form.value = {
-      productId: result.data.id || "",
-      name: result.data.name || "",
-      price: Number(result.data.price) || "",
-      serviceTypeIdList: result.data.serviceTypeVOList.map((item) =>
+      productId: result.data?.id || "",
+      name: result.data?.name || "",
+      price: Number(result.data?.price) || "",
+      serviceTypeIdList: result.data?.serviceTypeVOList.map((item) =>
         Number(item.id)
       ),
     };
@@ -167,7 +167,6 @@ const handleSub = async (FormRef) => {
     });
     FormRef.resetFields();
     tableRef.value.clearSelection();
-
     router.push("/goods/goods");
   }
 };
@@ -175,7 +174,6 @@ const handleCancel = (FormRef) => {
   form.value.productId = null;
   if (!FormRef) return;
   tableRef.value.clearSelection();
-
   FormRef.resetFields();
   router.push("/goods/goods");
 };
@@ -183,11 +181,11 @@ const handleCancel = (FormRef) => {
 onMounted(() => {
   getServiceType();
   form.value.productId = router.currentRoute.value.query.id;
+  nextTick(() => {
   if (form.value.productId) {
-    nextTick(() => {
       getFormInfo(form.value.productId);
-    });
-  }
+    }
+  });
 });
 </script>
 <style scoped lang="scss">

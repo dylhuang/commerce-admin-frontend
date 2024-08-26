@@ -13,7 +13,7 @@
         />
       </el-form-item>
       <el-form-item class="float-right">
-        <el-button type="primary" @click="handleSub" :icon="Search"
+        <el-button class="search-btn" @click="handleSub" :icon="Search"
           >搜索</el-button
         >
         <el-button @click="handleReset(searchFormRef)" :icon="Refresh"
