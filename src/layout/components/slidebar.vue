@@ -4,7 +4,7 @@
     <el-scrollbar class="vertical-menus-scrollbar">
       <el-menu
           active-text-color="#409eff"
-          background-color="#304156"
+          background-color="#003865"
           :collapse="sliderCollapse"
           :default-active="route.fullPath"
           text-color="#fff"
@@ -45,6 +45,10 @@ onMounted(()=>{
 <style lang="scss" scoped>
 .el-scrollbar {
   height: calc(100% - 50px);
+}
+.el-submenu :deep.el-submenu__title:hover {
+  color: #2E95FB !important;
+  background: linear-gradient(270deg, #F2F7FC 0%, #FEFEFE 100%)!important;
 }
 //.sidebar-container {
 //  transition: width 0.3s;

@@ -35,6 +35,10 @@ const handleRoute = () => {
 </script>
 
 <style lang="scss" scoped>
+.el-menu-item:hover{
+    color: #409eff !important;
+    background-color: rgba(156,219,217,0.1);
+}
 .menu-icon {
   width: 32px;
   height: 32px;
