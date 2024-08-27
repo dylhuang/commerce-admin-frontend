@@ -12,8 +12,7 @@
       :data="tableInfo.tableData"
       border
       style="width: 100%"
-      @selection-change="handleSelectionChange"
-    >
+      @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" />
       <el-table-column type="index" width="60" label="序号" align="center" />
       <el-table-column label="商品编码" prop="merchandiseCode">
